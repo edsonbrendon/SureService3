@@ -6,6 +6,7 @@ import { AdvertsPage } from '../adverts/adverts';
 import { ContactProvider } from './../../providers/contact/contact';
 import { Observable } from 'rxjs/Observable';
 import { ProfilePage } from '../profile/profile';
+import { ContactEditPage } from '../contact-edit/contact-edit';
 
 declare var google;
 
@@ -45,12 +46,12 @@ export class HomePage {
     }
 
     this.map = new google.maps.Map(this.mapElement.nativeElement, options);
-
+    /*
     for (let i = 0; i < this.anuncios.length; i++) {
 
       var ctga;
 
-      if(this.anuncios[i].categoria == 1) 
+      if(this.anuncios[i].categoria == "Manutenção") 
         ctga = 'limpeza.png';
       else 
         ctga = 'manutencao.png';
@@ -61,7 +62,7 @@ export class HomePage {
         this.anuncios[i].longitude, 
         this.anuncios[i].name, 
         ctga);
-    }
+    }*/
     
   }
 
@@ -99,11 +100,17 @@ export class HomePage {
   }
 
   NavAdverts(){
-    this.navCtrl.push(AdvertsPage);
+    //this.navCtrl.push(AdvertsPage);
+    this.navCtrl.push(AdvertsPage,{},{animate:false});  
   }
 
   NavProfile(){
-    this.navCtrl.push(ProfilePage);
+    //this.navCtrl.push(ProfilePage);
+    this.navCtrl.push(ProfilePage,{},{animate:false}); 
+  }
+
+  newContact() {
+    this.navCtrl.push(ContactEditPage);
   }
 
    AddMap() {

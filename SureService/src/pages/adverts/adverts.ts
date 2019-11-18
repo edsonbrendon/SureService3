@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { IonicPage, NavParams } from 'ionic-angular';
 import { HomePage } from '../home/home';
 import { ContactProvider } from './../../providers/contact/contact';
 import { NavController, ToastController } from 'ionic-angular';
@@ -28,18 +28,21 @@ export class AdvertsPage {
   }
   
   NavMapa(){
-    this.navCtrl.push(HomePage);
+    //this.navCtrl.push(HomePage);
+    this.navCtrl.push(HomePage,{},{animate:false});
   }
 
   NavAdverts(){
   }
   
   NavProfile(){
-    this.navCtrl.push(ProfilePage);
+    //this.navCtrl.push(ProfilePage);
+    this.navCtrl.push(ProfilePage,{},{animate:false});
   }
 
   newContact() {
-    this.navCtrl.push(ContactEditPage);
+    //this.navCtrl.push(ContactEditPage);
+    this.navCtrl.push(ContactEditPage,{},{animate:false});   
   }
 
   editContact(contact: any) {
