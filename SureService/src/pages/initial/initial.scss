@@ -1,0 +1,32 @@
+page-initial {
+    .background{
+        background: url('../../assets/imgs/wallpaper.png');
+    } 
+    
+    .titulo  {
+        text-align: left;
+        color: white; 
+        padding: 25px;
+        padding-top: 70%;
+    } 
+    
+    #btn_Iniciar {
+        background: white; 
+        color:#0062ff;
+        border-color: white;
+    }
+    
+    .Subtitulo {
+        text-align: left; 
+        color: white;
+    }
+    
+    .Descricao{
+        text-align: left; 
+        color: white;
+    }
+    .Grupo {
+        padding: 40px;
+        padding-top: 100%;
+    }
+}

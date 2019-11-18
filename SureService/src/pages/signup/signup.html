@@ -1,0 +1,30 @@
+<ion-header>
+  <ion-navbar>
+  </ion-navbar>
+</ion-header>
+
+<ion-content padding>
+    <div style="padding: 30px;">
+      <h3 class="titulo">Vamos começar!</h3>
+      <p>Crie uma conta na SURE SERVICES.</p><BR><BR>
+      <ion-list>
+        <ion-item>
+          <ion-input type="email" placeholder="E-mail" required #usuario></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-input type="password" placeholder="Senha" required #senha></ion-input>
+        </ion-item>
+      </ion-list>
+      <BR>
+      <div>
+        <ion-col>
+            <button (click)="createAccount()" ion-button full>Criar conta</button>
+        </ion-col>
+      </div>
+
+      <div class="subtitulo">
+        <ion-label>Já possui uma conta?<a (click)="Login()"> Entrar</a></ion-label>
+      </div>
+
+    </div>
+</ion-content>

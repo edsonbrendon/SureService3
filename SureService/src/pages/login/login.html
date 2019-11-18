@@ -1,0 +1,33 @@
+<ion-header>
+  <ion-navbar>
+  </ion-navbar>
+</ion-header>
+
+<ion-content padding>
+    <div style="padding: 30px;">
+      <h3 class="titulo">Bem-vindo de volta!</h3>
+      <p>Entre com sua conta existente.</p><BR><BR>
+
+      <ion-list>
+        <ion-item>
+          <ion-input required type="text" placeholder="E-mail" #usuario></ion-input>
+        </ion-item>
+        <ion-item>
+            <ion-input required type="password" placeholder="Senha" #senha></ion-input>
+        </ion-item>
+      </ion-list>
+      <div style="text-align: right">
+        <a (click)="forgotpassword()">Esqueceu a senha?</a>
+      </div>
+      <BR>
+      <div>
+        <ion-col>
+            <button (click)="Login()" ion-button full>Entrar</button>
+        </ion-col>
+      </div>
+
+      <div class="subtitulo">
+        <ion-label>Não tem uma conta? <a (click)="SignUp()"> Criar uma conta</a></ion-label>
+      </div>
+    </div>
+</ion-content>
