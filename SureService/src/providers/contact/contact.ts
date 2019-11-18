@@ -17,13 +17,10 @@ export class ContactProvider {
     let prdn = this.getAll();
     prdn.subscribe(data =>{
       for (let item of data) {
-        item.map(anuncios => ({
-          name: anuncios.name,
-          telefone: anuncios.telefone
-        }));
+        console.log(item);
       }
     });
-    return anuncios;
+   
   }
 
   queryProd(as:string){
