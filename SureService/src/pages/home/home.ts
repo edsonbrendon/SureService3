@@ -17,7 +17,7 @@ declare var google;
 })
 export class HomePage {
 
-  anuncios: Observable<any>;
+  anuncios: any;
 
   @ViewChild('map') mapElement: ElementRef;
   
@@ -28,7 +28,7 @@ export class HomePage {
     public navCtrl: NavController, 
     public alertCtrl: AlertController,
     public provider: ContactProvider,) {
-      this.anuncios = this.provider.getAll();
+      this.anuncios = this.provider.getAllUserArray();
   }
 
   ionViewDidEnter() {

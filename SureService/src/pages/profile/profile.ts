@@ -31,11 +31,13 @@ export class ProfilePage {
   }
 
   NavMapa(){
-      this.navCtrl.push(HomePage);
+    //this.navCtrl.push(HomePage);      
+    this.navCtrl.push(HomePage,{},{animate:false}); 
   }
 
   NavAdverts(){
-    this.navCtrl.push(AdvertsPage);
+    this.navCtrl.push(AdvertsPage,{},{animate:false}); 
+    //this.navCtrl.push(AdvertsPage);
   }
 
   NavProfile(){
