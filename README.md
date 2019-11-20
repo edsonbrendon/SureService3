@@ -3,22 +3,22 @@
 <h4>Ionic:</h4>
 
    <p>Ionic CLI          : 5.4.6</p>
-   Ionic Framework    : ionic-angular 3.9.5
-   @ionic/app-scripts : 3.2.2
+   <p>Ionic Framework    : ionic-angular 3.9.5</p>
+   <p>@ionic/app-scripts : 3.2.2</p>
 
 <h4>Cordova:</h4>
 
-   Cordova CLI       : 9.0.0 (cordova-lib@9.0.1)
-   Cordova Platforms : none
-   Cordova Plugins   : no whitelisted plugins (0 plugins total)
+   <p>Cordova CLI       : 9.0.0 (cordova-lib@9.0.1</p>
+   <p>Cordova Platforms : none</p>
+   <p>Cordova Plugins   : no whitelisted plugins (0 plugins total)</p>
 
 <h4>Utility:</h4>
 
-   cordova-res : 0.8.0
-   native-run  : 0.2.8
+   <p>cordova-res : 0.8.0</p>
+   <p>native-run  : 0.2.</p>
 
 <h4>System:</h4>
 
-   NodeJS : v10.16.3
-   npm    : 6.9.0
-   OS     : Windows 10
+   <p>NodeJS : v10.16.3</p>
+   <p>npm    : 6.9.0</p>
+   <p>OS     : Windows 10</p>
