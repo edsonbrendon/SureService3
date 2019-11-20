@@ -29,7 +29,7 @@ export class SignupPage {
     this.firebaseauth.auth.createUserWithEmailAndPassword(this.email.value , this.password.value)
     .then(() => {
       this.exibirToast('Usuário criado com sucesso');
-      this.navCtrl.push(HomePage);
+      this.navCtrl.setRoot(HomePage);
     })
     .catch((erro: any) => {
       this.exibirToast(erro);

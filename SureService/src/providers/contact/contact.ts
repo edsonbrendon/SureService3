@@ -14,17 +14,17 @@ export class ContactProvider {
   }
 
   getAllUserArray(){
-    let prdn = this.getAll();
-    prdn.subscribe(data =>{
-      for (let item of data) {
-        console.log(item);
-      }
-    });
-   
-  }
+    var prdn = this.getAll();
+    var object = {};
+    var datas = [];
 
-  queryProd(as:string){
-    return this.db.list(`/Produto/${as}`);
+    prdn.forEach(items => {
+      object = (items);
+      datas.push(object);
+    });
+    this.anuncios = datas;
+    console.log(this.anuncios);
+    return this.anuncios;
   }
 
   getAll() {

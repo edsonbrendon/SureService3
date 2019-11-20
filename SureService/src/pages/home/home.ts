@@ -4,7 +4,6 @@ import { IonicPage } from 'ionic-angular';
 import { AlertController } from 'ionic-angular';
 import { AdvertsPage } from '../adverts/adverts';
 import { ContactProvider } from './../../providers/contact/contact';
-import { Observable } from 'rxjs/Observable';
 import { ProfilePage } from '../profile/profile';
 import { ContactEditPage } from '../contact-edit/contact-edit';
 
@@ -17,7 +16,7 @@ declare var google;
 })
 export class HomePage {
 
-  anuncios: any;
+  public anuncios;
 
   @ViewChild('map') mapElement: ElementRef;
   
@@ -42,19 +41,55 @@ export class HomePage {
       center: {lat: 41.85, lng: -87.65},
       zoom: 7,
       streetViewControl: false,
-      disableDefaultUI: true
+      disableDefaultUI: true,
+      styles: [
+        {
+          "featureType": "administrative",
+          "elementType": "geometry",
+          "stylers": [
+            {
+              "visibility": "off"
+            }
+          ]
+        },
+        {
+          "featureType": "poi",
+          "stylers": [
+            {
+              "visibility": "off"
+            }
+          ]
+        },
+        {
+          "featureType": "road",
+          "elementType": "labels.icon",
+          "stylers": [
+            {
+              "visibility": "off"
+            }
+          ]
+        },
+        {
+          "featureType": "transit",
+          "stylers": [
+            {
+              "visibility": "off"
+            }
+          ]
+        }
+      ]
     }
 
     this.map = new google.maps.Map(this.mapElement.nativeElement, options);
-    /*
+
     for (let i = 0; i < this.anuncios.length; i++) {
 
       var ctga;
 
       if(this.anuncios[i].categoria == "Manutenção") 
-        ctga = 'limpeza.png';
-      else 
         ctga = 'manutencao.png';
+      else 
+        ctga = 'limpeza.png';
 
       this.addMarker(
         this.map, 
@@ -62,8 +97,7 @@ export class HomePage {
         this.anuncios[i].longitude, 
         this.anuncios[i].name, 
         ctga);
-    }*/
-    
+    }
   }
 
   addMarker(map, latitude, longitude, titulo, ctga) {
@@ -100,13 +134,11 @@ export class HomePage {
   }
 
   NavAdverts(){
-    //this.navCtrl.push(AdvertsPage);
-    this.navCtrl.push(AdvertsPage,{},{animate:false});  
+    this.navCtrl.setRoot(AdvertsPage,{},{animate:false});  
   }
 
   NavProfile(){
-    //this.navCtrl.push(ProfilePage);
-    this.navCtrl.push(ProfilePage,{},{animate:false}); 
+    this.navCtrl.setRoot(ProfilePage,{},{animate:false}); 
   }
 
   newContact() {

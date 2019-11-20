@@ -28,21 +28,14 @@ export class AdvertsPage {
   }
   
   NavMapa(){
-    //this.navCtrl.push(HomePage);
-    this.navCtrl.push(HomePage,{},{animate:false});
+    this.navCtrl.setRoot(HomePage,{},{animate:false});
   }
 
   NavAdverts(){
   }
   
   NavProfile(){
-    //this.navCtrl.push(ProfilePage);
-    this.navCtrl.push(ProfilePage,{},{animate:false});
-  }
-
-  newContact() {
-    //this.navCtrl.push(ContactEditPage);
-    this.navCtrl.push(ContactEditPage,{},{animate:false});   
+    this.navCtrl.setRoot(ProfilePage,{},{animate:false});
   }
 
   editContact(contact: any) {

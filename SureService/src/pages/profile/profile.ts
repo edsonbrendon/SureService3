@@ -30,14 +30,12 @@ export class ProfilePage {
     console.log('ionViewDidLoad ProfilePage');
   }
 
-  NavMapa(){
-    //this.navCtrl.push(HomePage);      
-    this.navCtrl.push(HomePage,{},{animate:false}); 
+  NavMapa(){    
+    this.navCtrl.setRoot(HomePage,{},{animate:false}); 
   }
 
   NavAdverts(){
-    this.navCtrl.push(AdvertsPage,{},{animate:false}); 
-    //this.navCtrl.push(AdvertsPage);
+    this.navCtrl.setRoot(AdvertsPage,{},{animate:false}); 
   }
 
   NavProfile(){
@@ -47,7 +45,7 @@ export class ProfilePage {
     this.firebaseauth.auth.signOut()
     .then(() => {
       this.exibirToast('Você saiu');
-      this.navCtrl.push(InitialPage);
+      this.navCtrl.setRoot(InitialPage);
     })
     .catch((erro: any) => {
       this.exibirToast(erro);
