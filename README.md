@@ -2,7 +2,7 @@
 
 <h4>Ionic:</h4>
 
-   Ionic CLI          : 5.4.6
+   <p>Ionic CLI          : 5.4.6</p>
    Ionic Framework    : ionic-angular 3.9.5
    @ionic/app-scripts : 3.2.2
 
