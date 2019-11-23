@@ -16,7 +16,10 @@ declare var google;
 })
 export class HomePage {
 
-  public anuncios;
+  public PATH = 'anuncios/';
+  
+  public data;
+  public anuncios = [];
 
   @ViewChild('map') mapElement: ElementRef;
   
@@ -26,12 +29,9 @@ export class HomePage {
   constructor(
     public navCtrl: NavController, 
     public alertCtrl: AlertController,
-    public provider: ContactProvider,) {
-      this.anuncios = this.provider.getAllUserArray();
-  }
+    public provider: ContactProvider) { }
 
   ionViewDidEnter() {
-    console.log(this.anuncios);
     this.initMap();
   }
 
@@ -44,8 +44,8 @@ export class HomePage {
       disableDefaultUI: true,
       styles: [
         {
-          "featureType": "administrative",
-          "elementType": "geometry",
+          "featureType": "administrative.land_parcel",
+          "elementType": "labels",
           "stylers": [
             {
               "visibility": "off"
@@ -53,7 +53,7 @@ export class HomePage {
           ]
         },
         {
-          "featureType": "poi",
+          "featureType": "poi.business",
           "stylers": [
             {
               "visibility": "off"
@@ -61,8 +61,8 @@ export class HomePage {
           ]
         },
         {
-          "featureType": "road",
-          "elementType": "labels.icon",
+          "featureType": "poi.park",
+          "elementType": "labels.text",
           "stylers": [
             {
               "visibility": "off"
@@ -70,7 +70,8 @@ export class HomePage {
           ]
         },
         {
-          "featureType": "transit",
+          "featureType": "road.local",
+          "elementType": "labels",
           "stylers": [
             {
               "visibility": "off"
@@ -82,45 +83,54 @@ export class HomePage {
 
     this.map = new google.maps.Map(this.mapElement.nativeElement, options);
 
-    for (let i = 0; i < this.anuncios.length; i++) {
+    console.log("Carregando anuncios ...");
 
-      var ctga;
+    this.data = this.provider.getAll();
+    this.data.subscribe(anuncios => {
+      for (let anuncio of anuncios) {
+          this.anuncios.push({
+            name: anuncio.name,
+            tel: anuncio.tel,
+            latitude: anuncio.latitude,
+            longitude: anuncio.longitude,
+            categoria: anuncio.categoria,
+            descricao: anuncio.descricao,
+          });
+      }
+      console.log("Anuncios encontrados: " + this.anuncios.length);
+      console.log(this.anuncios);
 
-      if(this.anuncios[i].categoria == "Manutenção") 
-        ctga = 'manutencao.png';
-      else 
-        ctga = 'limpeza.png';
-
-      this.addMarker(
-        this.map, 
-        this.anuncios[i].latitude,
-        this.anuncios[i].longitude, 
-        this.anuncios[i].name, 
-        ctga);
-    }
+      for (let i = 0; i < this.anuncios.length; i++) {
+        console.log("Adicionando anuncio " + i + " de " + this.anuncios.length)
+        var marcador = this.anuncios[i].categoria + '.png';
+        this.addMarker(this.map, this.anuncios[i].latitude, this.anuncios[i].longitude, this.anuncios[i].name, marcador, this.anuncios[i].categoria);
+      }
+    });
   }
 
-  addMarker(map, latitude, longitude, titulo, ctga) {
+  addMarker(map, latitude, longitude, titulo, marcador, categoria) {
     var position = new google.maps.LatLng(latitude,longitude);
-    var marcador = new google.maps.Marker({
+    var marker = new google.maps.Marker({
       position,
       title: titulo,
       map,
       animation: google.maps.Animation.DROP,
-      icon: 'assets/imgs/' + ctga
+      icon: 'assets/imgs/' + marcador
     })
-        //Exibe a janela para cada marcador
-    this.addInfoWindowToMarker(marcador);
-    return marcador;
+    this.addInfoWindowToMarker(marker, categoria);
+    return marker;
   }
 
-    //Cria a estrutura da janela de cada marcador
-  addInfoWindowToMarker(marker) {
-    //var infoWindowContent = '<div id="content"><h1 id="firstHeading" class="firstHeading">' + marker.title + '</h1></div>';
-    var infoWindowContent = '<div id="content" class="item item-thumbnail-left item-text-wrap" ' +
-      ' <ion-item>  <ion-row> ' +
-      ' <h6> ' + marker.title + ' </h6>' +
-      '</ion-row>        </ion-item>'
+  addInfoWindowToMarker(marker, categoria) {
+    var infoWindowContent = 
+    '<div id="content"'+
+      '<ion-item>'+
+          '<ion-row>'+
+            '<h6>'+marker.title+'</h6>'+
+            categoria+'<br>'+
+            '<a>Verificar anuncio</a>'+
+          '</ion-row>'+       
+        '</ion-item>'
       ;
     var infoWindow = new google.maps.InfoWindow({
       content: infoWindowContent
@@ -143,37 +153,5 @@ export class HomePage {
 
   newContact() {
     this.navCtrl.push(ContactEditPage);
-  }
-
-   AddMap() {
-    const prompt = this.alertCtrl.create({
-      title: 'Inserir anuncio',
-      message: "Adicione seu serviço ao Sure Service!",
-      inputs: [
-        {
-          name: 'titulo',
-          placeholder: 'Titulo do anuncio'
-        },
-        {
-          name: 'descricao',
-          placeholder: 'Descrição'
-        },
-      ],
-      buttons: [
-        {
-          text: 'Cancel',
-          handler: data => {
-            console.log('Cancel clicked');
-          }
-        },
-        {
-          text: 'Salvar',
-          handler: data => {
-            console.log('Saved clicked');
-          }
-        }
-      ]
-    });
-    prompt.present();
   }
 }

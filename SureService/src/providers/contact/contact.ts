@@ -2,33 +2,34 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { AngularFireDatabase } from 'angularfire2/database';
 
-
 @Injectable()
 export class ContactProvider {
 
   public PATH = 'anuncios/';
-  public anuncios;
+  public anuncios = [];
 
-  constructor(public http: HttpClient, private db: AngularFireDatabase) {
+  constructor(public http: HttpClient, public db: AngularFireDatabase) {
     console.log('Hello ContactProvider Provider');
   }
 
-  getAllUserArray(){
-    var prdn = this.getAll();
-    var object = {};
-    var datas = [];
-
-    prdn.forEach(items => {
-      object = (items);
-      datas.push(object);
+  getAllArray(){
+    /*var data = [];
+    this.db.list(this.PATH).snapshotChanges()
+    .subscribe(
+    changes => {
+      changes.map(c => ({
+        key: c.payload.key, ...c.payload.val()
+      })).forEach(items => {
+        data.push(items);
+      });
+      console.log(data);
+      this.anuncios = data;
     });
-    this.anuncios = datas;
-    console.log(this.anuncios);
-    return this.anuncios;
+    return this.anuncios;*/
   }
 
   getAll() {
-    return this.db.list(this.PATH).valueChanges();
+    return this.db.list(this.PATH).valueChanges();    
   }
 
   get(key: string) {

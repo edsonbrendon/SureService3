@@ -46,8 +46,9 @@ export class LoginPage {
   }
 
   private exibirToast(mensagem: string): void {
-    let toast = this.toastCtrl.create({duration: 3000, 
-                                      position: 'top'});
+    let toast = this.toastCtrl.create({
+      duration: 3000, 
+      position: 'top',});
     toast.setMessage(mensagem);
     toast.present();
   }
