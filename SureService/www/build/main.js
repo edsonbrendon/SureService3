@@ -30,19 +30,19 @@ var map = {
 		5
 	],
 	"../pages/home/home.module": [
-		491,
+		488,
 		4
 	],
 	"../pages/initial/initial.module": [
-		488,
+		489,
 		3
 	],
 	"../pages/login/login.module": [
-		489,
+		490,
 		2
 	],
 	"../pages/profile/profile.module": [
-		490,
+		491,
 		1
 	],
 	"../pages/signup/signup.module": [
@@ -162,10 +162,10 @@ var AppModule = /** @class */ (function () {
                     links: [
                         { loadChildren: '../pages/adverts/adverts.module#AdvertsPageModule', name: 'AdvertsPage', segment: 'adverts', priority: 'low', defaultHistory: [] },
                         { loadChildren: '../pages/contact-edit/contact-edit.module#ContactEditPageModule', name: 'ContactEditPage', segment: 'contact-edit', priority: 'low', defaultHistory: [] },
+                        { loadChildren: '../pages/home/home.module#HomePageModule', name: 'HomePage', segment: 'home', priority: 'low', defaultHistory: [] },
                         { loadChildren: '../pages/initial/initial.module#InitialPageModule', name: 'InitialPage', segment: 'initial', priority: 'low', defaultHistory: [] },
                         { loadChildren: '../pages/login/login.module#LoginPageModule', name: 'LoginPage', segment: 'login', priority: 'low', defaultHistory: [] },
                         { loadChildren: '../pages/profile/profile.module#ProfilePageModule', name: 'ProfilePage', segment: 'profile', priority: 'low', defaultHistory: [] },
-                        { loadChildren: '../pages/home/home.module#HomePageModule', name: 'HomePage', segment: 'home', priority: 'low', defaultHistory: [] },
                         { loadChildren: '../pages/signup/signup.module#SignupPageModule', name: 'SignupPage', segment: 'signup', priority: 'low', defaultHistory: [] }
                     ]
                 }),
@@ -232,13 +232,14 @@ var HomePage = /** @class */ (function () {
         this.navCtrl = navCtrl;
         this.alertCtrl = alertCtrl;
         this.provider = provider;
-        this.anuncios = this.provider.getAllUserArray();
+        this.PATH = 'anuncios/';
+        this.anuncios = [];
     }
     HomePage.prototype.ionViewDidEnter = function () {
-        console.log(this.anuncios);
         this.initMap();
     };
     HomePage.prototype.initMap = function () {
+        var _this = this;
         var options = {
             center: { lat: 41.85, lng: -87.65 },
             zoom: 7,
@@ -246,8 +247,8 @@ var HomePage = /** @class */ (function () {
             disableDefaultUI: true,
             styles: [
                 {
-                    "featureType": "administrative",
-                    "elementType": "geometry",
+                    "featureType": "administrative.land_parcel",
+                    "elementType": "labels",
                     "stylers": [
                         {
                             "visibility": "off"
@@ -255,7 +256,7 @@ var HomePage = /** @class */ (function () {
                     ]
                 },
                 {
-                    "featureType": "poi",
+                    "featureType": "poi.business",
                     "stylers": [
                         {
                             "visibility": "off"
@@ -263,8 +264,8 @@ var HomePage = /** @class */ (function () {
                     ]
                 },
                 {
-                    "featureType": "road",
-                    "elementType": "labels.icon",
+                    "featureType": "poi.park",
+                    "elementType": "labels.text",
                     "stylers": [
                         {
                             "visibility": "off"
@@ -272,7 +273,8 @@ var HomePage = /** @class */ (function () {
                     ]
                 },
                 {
-                    "featureType": "transit",
+                    "featureType": "road.local",
+                    "elementType": "labels",
                     "stylers": [
                         {
                             "visibility": "off"
@@ -282,36 +284,51 @@ var HomePage = /** @class */ (function () {
             ]
         };
         this.map = new google.maps.Map(this.mapElement.nativeElement, options);
-        for (var i = 0; i < this.anuncios.length; i++) {
-            var ctga;
-            if (this.anuncios[i].categoria == "Manutenção")
-                ctga = 'manutencao.png';
-            else
-                ctga = 'limpeza.png';
-            this.addMarker(this.map, this.anuncios[i].latitude, this.anuncios[i].longitude, this.anuncios[i].name, ctga);
-        }
+        console.log("Carregando anuncios ...");
+        this.data = this.provider.getAll();
+        this.data.subscribe(function (anuncios) {
+            for (var _i = 0, anuncios_1 = anuncios; _i < anuncios_1.length; _i++) {
+                var anuncio = anuncios_1[_i];
+                _this.anuncios.push({
+                    name: anuncio.name,
+                    tel: anuncio.tel,
+                    latitude: anuncio.latitude,
+                    longitude: anuncio.longitude,
+                    categoria: anuncio.categoria,
+                    descricao: anuncio.descricao,
+                });
+            }
+            console.log("Anuncios encontrados: " + _this.anuncios.length);
+            console.log(_this.anuncios);
+            for (var i = 0; i < _this.anuncios.length; i++) {
+                console.log("Adicionando anuncio " + i + " de " + _this.anuncios.length);
+                var marcador = _this.anuncios[i].categoria + '.png';
+                _this.addMarker(_this.map, _this.anuncios[i].latitude, _this.anuncios[i].longitude, _this.anuncios[i].name, marcador, _this.anuncios[i].categoria);
+            }
+        });
     };
-    HomePage.prototype.addMarker = function (map, latitude, longitude, titulo, ctga) {
+    HomePage.prototype.addMarker = function (map, latitude, longitude, titulo, marcador, categoria) {
         var position = new google.maps.LatLng(latitude, longitude);
-        var marcador = new google.maps.Marker({
+        var marker = new google.maps.Marker({
             position: position,
             title: titulo,
             map: map,
             animation: google.maps.Animation.DROP,
-            icon: 'assets/imgs/' + ctga
+            icon: 'assets/imgs/' + marcador
         });
-        //Exibe a janela para cada marcador
-        this.addInfoWindowToMarker(marcador);
-        return marcador;
+        this.addInfoWindowToMarker(marker, categoria);
+        return marker;
     };
-    //Cria a estrutura da janela de cada marcador
-    HomePage.prototype.addInfoWindowToMarker = function (marker) {
+    HomePage.prototype.addInfoWindowToMarker = function (marker, categoria) {
         var _this = this;
-        //var infoWindowContent = '<div id="content"><h1 id="firstHeading" class="firstHeading">' + marker.title + '</h1></div>';
-        var infoWindowContent = '<div id="content" class="item item-thumbnail-left item-text-wrap" ' +
-            ' <ion-item>  <ion-row> ' +
-            ' <h6> ' + marker.title + ' </h6>' +
-            '</ion-row>        </ion-item>';
+        var infoWindowContent = '<div id="content"' +
+            '<ion-item>' +
+            '<ion-row>' +
+            '<h6>' + marker.title + '</h6>' +
+            categoria + '<br>' +
+            '<a>Verificar anuncio</a>' +
+            '</ion-row>' +
+            '</ion-item>';
         var infoWindow = new google.maps.InfoWindow({
             content: infoWindowContent
         });
@@ -329,37 +346,6 @@ var HomePage = /** @class */ (function () {
     };
     HomePage.prototype.newContact = function () {
         this.navCtrl.push(__WEBPACK_IMPORTED_MODULE_5__contact_edit_contact_edit__["a" /* ContactEditPage */]);
-    };
-    HomePage.prototype.AddMap = function () {
-        var prompt = this.alertCtrl.create({
-            title: 'Inserir anuncio',
-            message: "Adicione seu serviço ao Sure Service!",
-            inputs: [
-                {
-                    name: 'titulo',
-                    placeholder: 'Titulo do anuncio'
-                },
-                {
-                    name: 'descricao',
-                    placeholder: 'Descrição'
-                },
-            ],
-            buttons: [
-                {
-                    text: 'Cancel',
-                    handler: function (data) {
-                        console.log('Cancel clicked');
-                    }
-                },
-                {
-                    text: 'Salvar',
-                    handler: function (data) {
-                        console.log('Saved clicked');
-                    }
-                }
-            ]
-        });
-        prompt.present();
     };
     __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["_8" /* ViewChild */])('map'),
@@ -641,19 +627,23 @@ var ContactProvider = /** @class */ (function () {
         this.http = http;
         this.db = db;
         this.PATH = 'anuncios/';
+        this.anuncios = [];
         console.log('Hello ContactProvider Provider');
     }
-    ContactProvider.prototype.getAllUserArray = function () {
-        var prdn = this.getAll();
-        var object = {};
-        var datas = [];
-        prdn.forEach(function (items) {
-            object = (items);
-            datas.push(object);
+    ContactProvider.prototype.getAllArray = function () {
+        /*var data = [];
+        this.db.list(this.PATH).snapshotChanges()
+        .subscribe(
+        changes => {
+          changes.map(c => ({
+            key: c.payload.key, ...c.payload.val()
+          })).forEach(items => {
+            data.push(items);
+          });
+          console.log(data);
+          this.anuncios = data;
         });
-        this.anuncios = datas;
-        console.log(this.anuncios);
-        return this.anuncios;
+        return this.anuncios;*/
     };
     ContactProvider.prototype.getAll = function () {
         return this.db.list(this.PATH).valueChanges();
@@ -696,10 +686,9 @@ var ContactProvider = /** @class */ (function () {
     };
     ContactProvider = __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_1__angular_core__["A" /* Injectable */])(),
-        __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_0__angular_common_http__["a" /* HttpClient */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_0__angular_common_http__["a" /* HttpClient */]) === "function" && _a || Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_2_angularfire2_database__["AngularFireDatabase"] !== "undefined" && __WEBPACK_IMPORTED_MODULE_2_angularfire2_database__["AngularFireDatabase"]) === "function" && _b || Object])
+        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_0__angular_common_http__["a" /* HttpClient */], __WEBPACK_IMPORTED_MODULE_2_angularfire2_database__["AngularFireDatabase"]])
     ], ContactProvider);
     return ContactProvider;
-    var _a, _b;
 }());
 
 //# sourceMappingURL=contact.js.map
@@ -810,8 +799,10 @@ var LoginPage = /** @class */ (function () {
         });
     };
     LoginPage.prototype.exibirToast = function (mensagem) {
-        var toast = this.toastCtrl.create({ duration: 3000,
-            position: 'top' });
+        var toast = this.toastCtrl.create({
+            duration: 3000,
+            position: 'top',
+        });
         toast.setMessage(mensagem);
         toast.present();
     };
@@ -989,7 +980,7 @@ var ContactEditPage = /** @class */ (function () {
     };
     ContactEditPage = __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_1__angular_core__["m" /* Component */])({
-            selector: 'page-contact-edit',template:/*ion-inline-start:"C:\Users\edson\Documents\GitHub\SureService3\SureService\src\pages\contact-edit\contact-edit.html"*/'<ion-header>\n\n    <ion-navbar>\n\n        <ion-title>Inserir anuncio</ion-title>\n\n    </ion-navbar>\n\n  </ion-header>\n\n\n\n<ion-content padding>\n\n    <form [formGroup]="form">\n\n      <ion-item>\n\n        <ion-label floating>Nome</ion-label>\n\n        <ion-input type="text" formControlName="name"></ion-input>\n\n      </ion-item>\n\n\n\n      <ion-item>\n\n          <ion-label floating>Descrição</ion-label>\n\n          <ion-input type="text" formControlName="descricao"></ion-input>\n\n      </ion-item>\n\n  \n\n      <ion-item>\n\n        <ion-label floating>Telefone</ion-label>\n\n        <ion-input type="tel" formControlName="tel"></ion-input>\n\n      </ion-item>\n\n\n\n      <ion-item>\n\n          <ion-label floating>Latitute</ion-label>\n\n          <ion-input type="text" formControlName="latitude"></ion-input>\n\n      </ion-item>\n\n\n\n      <ion-item>\n\n          <ion-label floating>Longitude</ion-label>\n\n          <ion-input type="text" formControlName="longitude"></ion-input>\n\n      </ion-item>\n\n\n\n      <ion-item>\n\n          <ion-label floating>Categoria</ion-label>\n\n          <ion-select formControlName="categoria">\n\n            <ion-option value="Limpeza">Limpeza</ion-option>\n\n            <ion-option value="Manutenção">Manutenção</ion-option>\n\n          </ion-select>\n\n      </ion-item>\n\n  \n\n      <div padding>\n\n        <button ion-button block type="submit" [disabled]="!form.valid" (click)="onSubmit()">Salvar</button>\n\n      </div>\n\n    </form>\n\n</ion-content>'/*ion-inline-end:"C:\Users\edson\Documents\GitHub\SureService3\SureService\src\pages\contact-edit\contact-edit.html"*/,
+            selector: 'page-contact-edit',template:/*ion-inline-start:"C:\Users\edson\Documents\GitHub\SureService3\SureService\src\pages\contact-edit\contact-edit.html"*/'<ion-header>\n\n    <ion-navbar>\n\n        <ion-title>Inserir anuncio</ion-title>\n\n    </ion-navbar>\n\n  </ion-header>\n\n\n\n<ion-content padding>\n\n    <form [formGroup]="form">\n\n      <ion-item>\n\n        <ion-label floating>Nome</ion-label>\n\n        <ion-input type="text" formControlName="name"></ion-input>\n\n      </ion-item>\n\n\n\n      <ion-item>\n\n          <ion-label floating>Descrição</ion-label>\n\n          <ion-input type="text" formControlName="descricao"></ion-input>\n\n      </ion-item>\n\n  \n\n      <ion-item>\n\n        <ion-label floating>Telefone</ion-label>\n\n        <ion-input type="tel" formControlName="tel"></ion-input>\n\n      </ion-item>\n\n\n\n      <ion-item>\n\n          <ion-label floating>Latitute</ion-label>\n\n          <ion-input type="text" formControlName="latitude"></ion-input>\n\n      </ion-item>\n\n\n\n      <ion-item>\n\n          <ion-label floating>Longitude</ion-label>\n\n          <ion-input type="text" formControlName="longitude"></ion-input>\n\n      </ion-item>\n\n\n\n      <ion-item>\n\n          <ion-label floating>Categoria</ion-label>\n\n          <ion-select formControlName="categoria">\n\n            <ion-option value="Limpeza">Limpeza</ion-option>\n\n            <ion-option value="Manutenção">Manutenção</ion-option>\n\n            <ion-option value="Pintura">Pintura</ion-option>\n\n            <ion-option value="Educação">Educação</ion-option>\n\n            <ion-option value="Transporte">Transporte</ion-option>\n\n            <ion-option value="Babá">Babá</ion-option>\n\n            <ion-option value="Jardinagem">Jardinagem</ion-option>\n\n            <ion-option value="Outros">Outros</ion-option>\n\n          </ion-select>\n\n      </ion-item>\n\n  \n\n      <div padding>\n\n        <button ion-button block type="submit" [disabled]="!form.valid" (click)="onSubmit()">Salvar</button>\n\n      </div>\n\n    </form>\n\n</ion-content>'/*ion-inline-end:"C:\Users\edson\Documents\GitHub\SureService3\SureService\src\pages\contact-edit\contact-edit.html"*/,
         }),
         __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_2_ionic_angular__["g" /* NavController */], __WEBPACK_IMPORTED_MODULE_2_ionic_angular__["h" /* NavParams */],
             __WEBPACK_IMPORTED_MODULE_3__angular_forms__["a" /* FormBuilder */], __WEBPACK_IMPORTED_MODULE_0__providers_contact_contact__["a" /* ContactProvider */],
