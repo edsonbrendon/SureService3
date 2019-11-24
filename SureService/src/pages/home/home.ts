@@ -21,40 +21,38 @@ export class HomePage {
   
   public data;
   public anuncios = [];
+  public latitude;
+  public longitude;
 
   @ViewChild('map') mapElement: ElementRef;
   
   map: any;
   markers: any;
-  latLng: any;
 
   constructor(
     public navCtrl: NavController, 
     public alertCtrl: AlertController,
     public provider: ContactProvider,
-    public geolocation: Geolocation) { }
-
-  ionViewDidEnter() {
-
-    console.log("Carregando local...");
-    let options = {timeout: 10000, enableHighAccuracy: true, maximumAge: 3600};
-    this.geolocation.getCurrentPosition(options).then((position) => {
-      this.latLng = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
+    private geolocation: Geolocation) {
+      console.log("Carregando local...");
+    //let options = {timeout: 10000, enableHighAccuracy: true, maximumAge: 3600};
+    this.geolocation.getCurrentPosition().then((position) => {
+      console.log("Latitude: "+position.coords.latitude);
+      console.log("Longitude: "+position.coords.longitude);
+      this.latitude = position.coords.latitude;
+      this.longitude = position.coords.longitude;
     }).catch((error) => {
       console.log('Error getting location', error);
     });
-    let watch = this.geolocation.watchPosition();
-    watch.subscribe((position) => {
-      //this.latLng = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
-    });
+  }
 
+  ionViewDidEnter() {
     this.initMap();
   }
 
   initMap() {
-
     var options = {
-      center: this.latLng,
+      center: {lat: -23.179264, lng: -45.8752},
       zoom: 14,
       streetViewControl: false,
       disableDefaultUI: true,
