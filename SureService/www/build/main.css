@@ -25696,9 +25696,13 @@ ion-navbar.toolbar {
   min-height: 46px;
 }
 
-page-home #map {
+page-home .scroll {
   height: 100%;
+}
+
+page-home #map {
   width: 100%;
+  height: 100%;
 }
 
 page-initial .background {

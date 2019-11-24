@@ -44,6 +44,7 @@ export class HomePage {
     }).catch((error) => {
       console.log('Error getting location', error);
     });
+    this.data = this.provider.getAll();
   }
 
   ionViewDidEnter() {
@@ -98,7 +99,6 @@ export class HomePage {
     this.map = new google.maps.Map(this.mapElement.nativeElement, options);
 
     console.log("Carregando anuncios...");
-    this.data = this.provider.getAll();
     this.data.subscribe(anuncios => {
       for (let anuncio of anuncios) {
           this.anuncios.push({
