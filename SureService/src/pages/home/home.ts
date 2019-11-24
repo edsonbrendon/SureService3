@@ -6,6 +6,7 @@ import { AdvertsPage } from '../adverts/adverts';
 import { ContactProvider } from './../../providers/contact/contact';
 import { ProfilePage } from '../profile/profile';
 import { ContactEditPage } from '../contact-edit/contact-edit';
+import { Geolocation } from '@ionic-native/geolocation';
 
 declare var google;
 
@@ -25,21 +26,36 @@ export class HomePage {
   
   map: any;
   markers: any;
+  latLng: any;
 
   constructor(
     public navCtrl: NavController, 
     public alertCtrl: AlertController,
-    public provider: ContactProvider) { }
+    public provider: ContactProvider,
+    public geolocation: Geolocation) { }
 
   ionViewDidEnter() {
+
+    console.log("Carregando local...");
+    let options = {timeout: 10000, enableHighAccuracy: true, maximumAge: 3600};
+    this.geolocation.getCurrentPosition(options).then((position) => {
+      this.latLng = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
+    }).catch((error) => {
+      console.log('Error getting location', error);
+    });
+    let watch = this.geolocation.watchPosition();
+    watch.subscribe((position) => {
+      //this.latLng = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
+    });
+
     this.initMap();
   }
 
   initMap() {
-    
-    const options = {
-      center: {lat: 41.85, lng: -87.65},
-      zoom: 7,
+
+    var options = {
+      center: this.latLng,
+      zoom: 14,
       streetViewControl: false,
       disableDefaultUI: true,
       styles: [
@@ -80,11 +96,10 @@ export class HomePage {
         }
       ]
     }
-
+    console.log("Criando mapa...");
     this.map = new google.maps.Map(this.mapElement.nativeElement, options);
 
-    console.log("Carregando anuncios ...");
-
+    console.log("Carregando anuncios...");
     this.data = this.provider.getAll();
     this.data.subscribe(anuncios => {
       for (let anuncio of anuncios) {
@@ -96,15 +111,10 @@ export class HomePage {
             categoria: anuncio.categoria,
             descricao: anuncio.descricao,
           });
+        this.addMarker(this.map, anuncio.latitude, anuncio.longitude, anuncio.name, anuncio.categoria + '.png', anuncio.categoria);
       }
-      console.log("Anuncios encontrados: " + this.anuncios.length);
+      console.log("Anuncios inseridos: " + this.anuncios.length);
       console.log(this.anuncios);
-
-      for (let i = 0; i < this.anuncios.length; i++) {
-        console.log("Adicionando anuncio " + i + " de " + this.anuncios.length)
-        var marcador = this.anuncios[i].categoria + '.png';
-        this.addMarker(this.map, this.anuncios[i].latitude, this.anuncios[i].longitude, this.anuncios[i].name, marcador, this.anuncios[i].categoria);
-      }
     });
   }
 
@@ -127,7 +137,7 @@ export class HomePage {
       '<ion-item>'+
           '<ion-row>'+
             '<h6>'+marker.title+'</h6>'+
-            categoria+'<br>'+
+            categoria+'<br><br>'+
             '<a>Verificar anuncio</a>'+
           '</ion-row>'+       
         '</ion-item>'

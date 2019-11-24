@@ -19,6 +19,8 @@ import { ContactProvider } from '../providers/contact/contact';
 import { AdvertsPage } from '../pages/adverts/adverts';
 import { ContactEditPage } from '../pages/contact-edit/contact-edit';
 
+import { Geolocation } from '@ionic-native/geolocation';
+
 export const firebaseConfig = {
     apiKey: "AIzaSyBsx4wa6S9Hp04gd-UQN9ZXcckEuxSrilE",
     authDomain: "sureservice-2eabb.firebaseapp.com",
@@ -62,6 +64,7 @@ export const firebaseConfig = {
   providers: [
     StatusBar,
     SplashScreen,
+    Geolocation,
     {provide: ErrorHandler, useClass: IonicErrorHandler},
     ContactProvider,
     AngularFireDatabase
