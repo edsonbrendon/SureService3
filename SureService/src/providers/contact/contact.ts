@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { AngularFireDatabase } from 'angularfire2/database';
+//import { map } from 'rxjs/operators';
 
 @Injectable()
 export class ContactProvider {
@@ -13,7 +14,7 @@ export class ContactProvider {
   }
 
   getAll() {
-    return this.db.list(this.PATH).valueChanges();    
+    return this.db.list(this.PATH).valueChanges();  
   }
 
   getAllKey() {

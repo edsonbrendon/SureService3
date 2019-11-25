@@ -35,16 +35,6 @@ export class HomePage {
     public alertCtrl: AlertController,
     public provider: ContactProvider,
     private geolocation: Geolocation) {
-    console.log("Carregando local...");
-    //let options = {timeout: 10000, enableHighAccuracy: true, maximumAge: 3600};
-    this.geolocation.getCurrentPosition().then((position) => {
-      console.log("Latitude: " + position.coords.latitude);
-      console.log("Longitude: " + position.coords.longitude);
-      this.latitude = position.coords.latitude;
-      this.longitude = position.coords.longitude;
-    }).catch((error) => {
-      console.log('Error getting location', error);
-    });
     this.data = this.provider.getAll();
   }
 
@@ -53,67 +43,78 @@ export class HomePage {
   }
 
   initMap() {
-    var options = {
-      center: { lat: -23.179264, lng: -45.8752 },
-      zoom: 14,
-      streetViewControl: false,
-      disableDefaultUI: true,
-      styles: [
-        {
-          "featureType": "administrative.land_parcel",
-          "elementType": "labels",
-          "stylers": [
-            {
-              "visibility": "off"
-            }
-          ]
-        },
-        {
-          "featureType": "poi.business",
-          "stylers": [
-            {
-              "visibility": "off"
-            }
-          ]
-        },
-        {
-          "featureType": "poi.park",
-          "elementType": "labels.text",
-          "stylers": [
-            {
-              "visibility": "off"
-            }
-          ]
-        },
-        {
-          "featureType": "road.local",
-          "elementType": "labels",
-          "stylers": [
-            {
-              "visibility": "off"
-            }
-          ]
-        }
-      ]
-    }
-    console.log("Criando mapa...");
-    this.map = new google.maps.Map(this.mapElement.nativeElement, options);
-
-    console.log("Carregando anuncios...");
-    this.data.subscribe(anuncios => {
-      for (let anuncio of anuncios) {
-        this.anuncios.push({
-          name: anuncio.name,
-          tel: anuncio.tel,
-          latitude: anuncio.latitude,
-          longitude: anuncio.longitude,
-          categoria: anuncio.categoria,
-          descricao: anuncio.descricao,
-        });
-        this.addMarker(this.map, anuncio.latitude, anuncio.longitude, anuncio.name, anuncio.categoria + '.png', anuncio.categoria, anuncio);
+    this.geolocation.getCurrentPosition().then((position) => {
+      console.log("Latitude: " + position.coords.latitude);
+      console.log("Longitude: " + position.coords.longitude);
+      this.latitude = position.coords.latitude;
+      this.longitude = position.coords.longitude;
+      var options = {
+        center: { lat: this.latitude, lng: this.longitude },
+        zoom: 15,
+        streetViewControl: false,
+        disableDefaultUI: true,
+        animation: google.maps.Animation.DROP,
+        styles: [
+          {
+            "featureType": "administrative.land_parcel",
+            "elementType": "labels",
+            "stylers": [
+              {
+                "visibility": "off"
+              }
+            ]
+          },
+          {
+            "featureType": "poi.business",
+            "stylers": [
+              {
+                "visibility": "off"
+              }
+            ]
+          },
+          {
+            "featureType": "poi.park",
+            "elementType": "labels.text",
+            "stylers": [
+              {
+                "visibility": "off"
+              }
+            ]
+          },
+          {
+            "featureType": "road.local",
+            "elementType": "labels",
+            "stylers": [
+              {
+                "visibility": "off"
+              }
+            ]
+          }
+        ]
       }
-      console.log("Anuncios inseridos: " + this.anuncios.length);
-      console.log(this.anuncios);
+      console.log("Criando mapa...");
+      this.map = new google.maps.Map(this.mapElement.nativeElement, options);
+
+      this.MyMarker(this.map, position.coords.latitude, position.coords.longitude); 
+
+      console.log("Carregando anuncios...");
+      this.data.subscribe(anuncios => {
+        for (let anuncio of anuncios) {
+          this.anuncios.push({
+            name: anuncio.name,
+            tel: anuncio.tel,
+            latitude: anuncio.latitude,
+            longitude: anuncio.longitude,
+            categoria: anuncio.categoria,
+            descricao: anuncio.descricao,
+          });
+          this.addMarker(this.map, anuncio.latitude, anuncio.longitude, anuncio.name, anuncio.categoria + '.png', anuncio.categoria, anuncio);
+        }
+        console.log("Anuncios inseridos: " + this.anuncios.length);
+        console.log(this.anuncios);
+      });
+    }).catch((error) => {
+      console.log('Error getting location', error);
     });
   }
 
@@ -123,10 +124,19 @@ export class HomePage {
       position,
       title: titulo,
       map,
-      animation: google.maps.Animation.DROP,
       icon: 'assets/imgs/' + marcador
     })
     this.addInfoWindowToMarker(marker, categoria, anuncio);
+    return marker;
+  }
+
+  MyMarker(map, latitude, longitude) {
+    var position = new google.maps.LatLng(latitude, longitude);
+    var marker = new google.maps.Marker({
+      position,
+      animation: google.maps.Animation.DROP,
+      map,
+    })
     return marker;
   }
 
@@ -146,7 +156,8 @@ export class HomePage {
     });*/
     marker.addListener('click', () => {
       //infoWindow.open(this.map, marker);
-      this.navCtrl.push(AnuncioPage, { contact: anuncio });
+      //this.navCtrl.push(AnuncioPage, { contact: anuncio });
+      this.presentAlert(anuncio);
     });
   }
 
@@ -168,4 +179,36 @@ export class HomePage {
   getAnuncio(){
     this.navCtrl.push(AnuncioPage);
   }
+
+  presentAlert(anuncio) {
+    let alert = this.alertCtrl.create({
+      title: anuncio.name,
+      subTitle: anuncio.categoria,
+      message: 'Descrição: '+anuncio.descricao+
+        '<br>Telefone: '+anuncio.tel,
+      buttons: [
+        {
+          text: 'Enviar mensagem',
+          handler: () => {
+            console.log('');
+          }
+        },
+        {
+          text: 'Perfil do Anunciante',
+          handler: () => {
+            console.log('');
+          }
+        },
+        {
+          text: 'Voltar',
+          role: 'cancel',
+          handler: () => {
+            console.log('Cancel clicked');
+          }
+        },
+      ]
+    });
+    alert.present();
+  }
+  
 }
