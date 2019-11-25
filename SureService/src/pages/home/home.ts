@@ -110,14 +110,14 @@ export class HomePage {
           categoria: anuncio.categoria,
           descricao: anuncio.descricao,
         });
-        this.addMarker(this.map, anuncio.latitude, anuncio.longitude, anuncio.name, anuncio.categoria + '.png', anuncio.categoria);
+        this.addMarker(this.map, anuncio.latitude, anuncio.longitude, anuncio.name, anuncio.categoria + '.png', anuncio.categoria, anuncio);
       }
       console.log("Anuncios inseridos: " + this.anuncios.length);
       console.log(this.anuncios);
     });
   }
 
-  addMarker(map, latitude, longitude, titulo, marcador, categoria) {
+  addMarker(map, latitude, longitude, titulo, marcador, categoria, anuncio) {
     var position = new google.maps.LatLng(latitude, longitude);
     var marker = new google.maps.Marker({
       position,
@@ -126,11 +126,11 @@ export class HomePage {
       animation: google.maps.Animation.DROP,
       icon: 'assets/imgs/' + marcador
     })
-    this.addInfoWindowToMarker(marker, categoria);
+    this.addInfoWindowToMarker(marker, categoria, anuncio);
     return marker;
   }
 
-  addInfoWindowToMarker(marker, categoria) {
+  addInfoWindowToMarker(marker, categoria, anuncio) {
     /*var infoWindowContent =
       '<div id="content"' +
       '<ion-item>' +
@@ -146,7 +146,7 @@ export class HomePage {
     });*/
     marker.addListener('click', () => {
       //infoWindow.open(this.map, marker);
-      this.navCtrl.push(AnuncioPage, { contact: marker });
+      this.navCtrl.push(AnuncioPage, { contact: anuncio });
     });
   }
 

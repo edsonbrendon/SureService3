@@ -12,16 +12,16 @@ export class AnuncioPage {
   anuncio: any;
   title: string;
   form: FormGroup;
-  contact: any;
+  public contact: any;
 
   constructor(
     public navCtrl: NavController, 
     public navParams: NavParams,
     private formBuilder: FormBuilder) {
-      this.anuncio = navParams.get('anuncio');
       this.contact = this.navParams.data.contact || { };
+      console.log(this.contact);
       this.createForm();
-  }
+    }
 
   createForm() {
     this.form = this.formBuilder.group({

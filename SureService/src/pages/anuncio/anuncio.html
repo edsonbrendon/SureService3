@@ -11,48 +11,8 @@
 </ion-header>
 
 <ion-content padding>
-  <form [formGroup]="form">
-    <ion-item>
-      <ion-label floating>Nome</ion-label>
-      <ion-input type="text" formControlName="name"></ion-input>
-    </ion-item>
-
-    <ion-item>
-        <ion-label floating>Descrição</ion-label>
-        <ion-input type="text" formControlName="descricao"></ion-input>
-    </ion-item>
-
-    <ion-item>
-      <ion-label floating>Telefone</ion-label>
-      <ion-input type="tel" formControlName="tel"></ion-input>
-    </ion-item>
-
-    <ion-item>
-        <ion-label floating>Latitute</ion-label>
-        <ion-input type="text" formControlName="latitude"></ion-input>
-    </ion-item>
-
-    <ion-item>
-        <ion-label floating>Longitude</ion-label>
-        <ion-input type="text" formControlName="longitude"></ion-input>
-    </ion-item>
-
-    <ion-item>
-        <ion-label floating>Categoria</ion-label>
-        <ion-select formControlName="categoria">
-          <ion-option value="Limpeza">Limpeza</ion-option>
-          <ion-option value="Manutenção">Manutenção</ion-option>
-          <ion-option value="Pintura">Pintura</ion-option>
-          <ion-option value="Educação">Educação</ion-option>
-          <ion-option value="Transporte">Transporte</ion-option>
-          <ion-option value="Babá">Babá</ion-option>
-          <ion-option value="Jardinagem">Jardinagem</ion-option>
-          <ion-option value="Outros">Outros</ion-option>
-        </ion-select>
-    </ion-item>
-
-    <div padding>
-      <button ion-button style="height: 50px" block type="submit" [disabled]="!form.valid" (click)="onSubmit()">Salvar</button>
-    </div>
-  </form>
+    <p>{{ contact.name }}</p>
+    <p>{{ contact.descricao }}</p>
+    <p>{{ contact.tel }}</p>
+    <p>{{ contact.categoria }}</p>
 </ion-content>
