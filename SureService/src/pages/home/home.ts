@@ -6,6 +6,8 @@ import { AdvertsPage } from '../adverts/adverts';
 import { ContactProvider } from './../../providers/contact/contact';
 import { ProfilePage } from '../profile/profile';
 import { ContactEditPage } from '../contact-edit/contact-edit';
+import { Geolocation } from '@ionic-native/geolocation';
+import { AnuncioPage } from '../anuncio/anuncio';
 
 declare var google;
 
@@ -17,29 +19,43 @@ declare var google;
 export class HomePage {
 
   public PATH = 'anuncios/';
-  
+
   public data;
   public anuncios = [];
+  public latitude;
+  public longitude;
 
   @ViewChild('map') mapElement: ElementRef;
-  
+
   map: any;
   markers: any;
 
   constructor(
-    public navCtrl: NavController, 
+    public navCtrl: NavController,
     public alertCtrl: AlertController,
-    public provider: ContactProvider) { }
+    public provider: ContactProvider,
+    private geolocation: Geolocation) {
+    console.log("Carregando local...");
+    //let options = {timeout: 10000, enableHighAccuracy: true, maximumAge: 3600};
+    this.geolocation.getCurrentPosition().then((position) => {
+      console.log("Latitude: " + position.coords.latitude);
+      console.log("Longitude: " + position.coords.longitude);
+      this.latitude = position.coords.latitude;
+      this.longitude = position.coords.longitude;
+    }).catch((error) => {
+      console.log('Error getting location', error);
+    });
+    this.data = this.provider.getAll();
+  }
 
   ionViewDidEnter() {
     this.initMap();
   }
 
   initMap() {
-    
-    const options = {
-      center: {lat: 41.85, lng: -87.65},
-      zoom: 7,
+    var options = {
+      center: { lat: -23.179264, lng: -45.8752 },
+      zoom: 14,
       streetViewControl: false,
       disableDefaultUI: true,
       styles: [
@@ -80,36 +96,29 @@ export class HomePage {
         }
       ]
     }
-
+    console.log("Criando mapa...");
     this.map = new google.maps.Map(this.mapElement.nativeElement, options);
 
-    console.log("Carregando anuncios ...");
-
-    this.data = this.provider.getAll();
+    console.log("Carregando anuncios...");
     this.data.subscribe(anuncios => {
       for (let anuncio of anuncios) {
-          this.anuncios.push({
-            name: anuncio.name,
-            tel: anuncio.tel,
-            latitude: anuncio.latitude,
-            longitude: anuncio.longitude,
-            categoria: anuncio.categoria,
-            descricao: anuncio.descricao,
-          });
+        this.anuncios.push({
+          name: anuncio.name,
+          tel: anuncio.tel,
+          latitude: anuncio.latitude,
+          longitude: anuncio.longitude,
+          categoria: anuncio.categoria,
+          descricao: anuncio.descricao,
+        });
+        this.addMarker(this.map, anuncio.latitude, anuncio.longitude, anuncio.name, anuncio.categoria + '.png', anuncio.categoria, anuncio);
       }
-      console.log("Anuncios encontrados: " + this.anuncios.length);
+      console.log("Anuncios inseridos: " + this.anuncios.length);
       console.log(this.anuncios);
-
-      for (let i = 0; i < this.anuncios.length; i++) {
-        console.log("Adicionando anuncio " + i + " de " + this.anuncios.length)
-        var marcador = this.anuncios[i].categoria + '.png';
-        this.addMarker(this.map, this.anuncios[i].latitude, this.anuncios[i].longitude, this.anuncios[i].name, marcador, this.anuncios[i].categoria);
-      }
     });
   }
 
-  addMarker(map, latitude, longitude, titulo, marcador, categoria) {
-    var position = new google.maps.LatLng(latitude,longitude);
+  addMarker(map, latitude, longitude, titulo, marcador, categoria, anuncio) {
+    var position = new google.maps.LatLng(latitude, longitude);
     var marker = new google.maps.Marker({
       position,
       title: titulo,
@@ -117,41 +126,46 @@ export class HomePage {
       animation: google.maps.Animation.DROP,
       icon: 'assets/imgs/' + marcador
     })
-    this.addInfoWindowToMarker(marker, categoria);
+    this.addInfoWindowToMarker(marker, categoria, anuncio);
     return marker;
   }
 
-  addInfoWindowToMarker(marker, categoria) {
-    var infoWindowContent = 
-    '<div id="content"'+
-      '<ion-item>'+
-          '<ion-row>'+
-            '<h6>'+marker.title+'</h6>'+
-            categoria+'<br>'+
-            '<a>Verificar anuncio</a>'+
-          '</ion-row>'+       
-        '</ion-item>'
+  addInfoWindowToMarker(marker, categoria, anuncio) {
+    /*var infoWindowContent =
+      '<div id="content"' +
+      '<ion-item>' +
+      '<ion-row>' +
+      '<h6>' + marker.title + '</h6>' +
+      categoria + '<br><br>' +
+      '<a>Verificar anuncio</a>' +
+      '</ion-row>' +
+      '</ion-item>'
       ;
     var infoWindow = new google.maps.InfoWindow({
       content: infoWindowContent
-    });
+    });*/
     marker.addListener('click', () => {
-      infoWindow.open(this.map, marker);
+      //infoWindow.open(this.map, marker);
+      this.navCtrl.push(AnuncioPage, { contact: anuncio });
     });
   }
 
-  NavMapa(){
+  NavMapa() {
   }
 
-  NavAdverts(){
-    this.navCtrl.setRoot(AdvertsPage,{},{animate:false});  
+  NavAdverts() {
+    this.navCtrl.setRoot(AdvertsPage, {}, { animate: false });
   }
 
-  NavProfile(){
-    this.navCtrl.setRoot(ProfilePage,{},{animate:false}); 
+  NavProfile() {
+    this.navCtrl.setRoot(ProfilePage, {}, { animate: false });
   }
 
   newContact() {
     this.navCtrl.push(ContactEditPage);
+  }
+
+  getAnuncio(){
+    this.navCtrl.push(AnuncioPage);
   }
 }

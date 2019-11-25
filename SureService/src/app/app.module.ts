@@ -18,6 +18,9 @@ import { SignupPage } from '../pages/signup/signup';
 import { ContactProvider } from '../providers/contact/contact';
 import { AdvertsPage } from '../pages/adverts/adverts';
 import { ContactEditPage } from '../pages/contact-edit/contact-edit';
+import { AnuncioPage } from '../pages/anuncio/anuncio';
+
+import { Geolocation } from '@ionic-native/geolocation';
 
 export const firebaseConfig = {
     apiKey: "AIzaSyBsx4wa6S9Hp04gd-UQN9ZXcckEuxSrilE",
@@ -39,7 +42,8 @@ export const firebaseConfig = {
     LoginPage,
     SignupPage,
     AdvertsPage,
-    ContactEditPage
+    ContactEditPage,
+    AnuncioPage
   ],
   imports: [
     BrowserModule,
@@ -57,11 +61,13 @@ export const firebaseConfig = {
     LoginPage,
     SignupPage,
     AdvertsPage,
-    ContactEditPage
+    ContactEditPage,
+    AnuncioPage
   ],
   providers: [
     StatusBar,
     SplashScreen,
+    Geolocation,
     {provide: ErrorHandler, useClass: IonicErrorHandler},
     ContactProvider,
     AngularFireDatabase

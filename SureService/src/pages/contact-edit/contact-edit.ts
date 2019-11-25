@@ -26,7 +26,7 @@ export class ContactEditPage {
   }
 
   private setupPageTitle() {
-    this.title = this.navParams.data.contact ? 'Alterando contato' : 'Novo contato';
+    this.title = this.navParams.data.contact ? 'Alterar anuncio' : 'Novo anuncio';
   }
 
   createForm() {

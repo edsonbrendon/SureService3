@@ -12,24 +12,12 @@ export class ContactProvider {
     console.log('Hello ContactProvider Provider');
   }
 
-  getAllArray(){
-    /*var data = [];
-    this.db.list(this.PATH).snapshotChanges()
-    .subscribe(
-    changes => {
-      changes.map(c => ({
-        key: c.payload.key, ...c.payload.val()
-      })).forEach(items => {
-        data.push(items);
-      });
-      console.log(data);
-      this.anuncios = data;
-    });
-    return this.anuncios;*/
-  }
-
   getAll() {
     return this.db.list(this.PATH).valueChanges();    
+  }
+
+  getAllKey() {
+    return this.db.list(this.PATH).snapshotChanges(); 
   }
 
   get(key: string) {
