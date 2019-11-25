@@ -7,6 +7,7 @@ import { ContactProvider } from './../../providers/contact/contact';
 import { ProfilePage } from '../profile/profile';
 import { ContactEditPage } from '../contact-edit/contact-edit';
 import { Geolocation } from '@ionic-native/geolocation';
+import { AnuncioPage } from '../anuncio/anuncio';
 
 declare var google;
 
@@ -18,27 +19,27 @@ declare var google;
 export class HomePage {
 
   public PATH = 'anuncios/';
-  
+
   public data;
   public anuncios = [];
   public latitude;
   public longitude;
 
   @ViewChild('map') mapElement: ElementRef;
-  
+
   map: any;
   markers: any;
 
   constructor(
-    public navCtrl: NavController, 
+    public navCtrl: NavController,
     public alertCtrl: AlertController,
     public provider: ContactProvider,
     private geolocation: Geolocation) {
-      console.log("Carregando local...");
+    console.log("Carregando local...");
     //let options = {timeout: 10000, enableHighAccuracy: true, maximumAge: 3600};
     this.geolocation.getCurrentPosition().then((position) => {
-      console.log("Latitude: "+position.coords.latitude);
-      console.log("Longitude: "+position.coords.longitude);
+      console.log("Latitude: " + position.coords.latitude);
+      console.log("Longitude: " + position.coords.longitude);
       this.latitude = position.coords.latitude;
       this.longitude = position.coords.longitude;
     }).catch((error) => {
@@ -53,7 +54,7 @@ export class HomePage {
 
   initMap() {
     var options = {
-      center: {lat: -23.179264, lng: -45.8752},
+      center: { lat: -23.179264, lng: -45.8752 },
       zoom: 14,
       streetViewControl: false,
       disableDefaultUI: true,
@@ -101,14 +102,14 @@ export class HomePage {
     console.log("Carregando anuncios...");
     this.data.subscribe(anuncios => {
       for (let anuncio of anuncios) {
-          this.anuncios.push({
-            name: anuncio.name,
-            tel: anuncio.tel,
-            latitude: anuncio.latitude,
-            longitude: anuncio.longitude,
-            categoria: anuncio.categoria,
-            descricao: anuncio.descricao,
-          });
+        this.anuncios.push({
+          name: anuncio.name,
+          tel: anuncio.tel,
+          latitude: anuncio.latitude,
+          longitude: anuncio.longitude,
+          categoria: anuncio.categoria,
+          descricao: anuncio.descricao,
+        });
         this.addMarker(this.map, anuncio.latitude, anuncio.longitude, anuncio.name, anuncio.categoria + '.png', anuncio.categoria);
       }
       console.log("Anuncios inseridos: " + this.anuncios.length);
@@ -117,7 +118,7 @@ export class HomePage {
   }
 
   addMarker(map, latitude, longitude, titulo, marcador, categoria) {
-    var position = new google.maps.LatLng(latitude,longitude);
+    var position = new google.maps.LatLng(latitude, longitude);
     var marker = new google.maps.Marker({
       position,
       title: titulo,
@@ -130,36 +131,41 @@ export class HomePage {
   }
 
   addInfoWindowToMarker(marker, categoria) {
-    var infoWindowContent = 
-    '<div id="content"'+
-      '<ion-item>'+
-          '<ion-row>'+
-            '<h6>'+marker.title+'</h6>'+
-            categoria+'<br><br>'+
-            '<a>Verificar anuncio</a>'+
-          '</ion-row>'+       
-        '</ion-item>'
+    /*var infoWindowContent =
+      '<div id="content"' +
+      '<ion-item>' +
+      '<ion-row>' +
+      '<h6>' + marker.title + '</h6>' +
+      categoria + '<br><br>' +
+      '<a>Verificar anuncio</a>' +
+      '</ion-row>' +
+      '</ion-item>'
       ;
     var infoWindow = new google.maps.InfoWindow({
       content: infoWindowContent
-    });
+    });*/
     marker.addListener('click', () => {
-      infoWindow.open(this.map, marker);
+      //infoWindow.open(this.map, marker);
+      this.navCtrl.push(AnuncioPage, { contact: marker });
     });
   }
 
-  NavMapa(){
+  NavMapa() {
   }
 
-  NavAdverts(){
-    this.navCtrl.setRoot(AdvertsPage,{},{animate:false});  
+  NavAdverts() {
+    this.navCtrl.setRoot(AdvertsPage, {}, { animate: false });
   }
 
-  NavProfile(){
-    this.navCtrl.setRoot(ProfilePage,{},{animate:false}); 
+  NavProfile() {
+    this.navCtrl.setRoot(ProfilePage, {}, { animate: false });
   }
 
   newContact() {
     this.navCtrl.push(ContactEditPage);
+  }
+
+  getAnuncio(){
+    this.navCtrl.push(AnuncioPage);
   }
 }
