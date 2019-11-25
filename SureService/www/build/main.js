@@ -94,12 +94,13 @@ var AnuncioPage = /** @class */ (function () {
     };
     AnuncioPage = __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["m" /* Component */])({
-            selector: 'page-anuncio',template:/*ion-inline-start:"C:\Users\edson\Documents\GitHub\SureService3\SureService\src\pages\anuncio\anuncio.html"*/'<!--\n\n  Generated template for the AnuncioPage page.\n\n\n\n  See http://ionicframework.com/docs/components/#navigation for more info on\n\n  Ionic pages and navigation.\n\n-->\n\n<ion-header>\n\n  <ion-navbar>\n\n    <ion-title>anuncio</ion-title>\n\n  </ion-navbar>\n\n</ion-header>\n\n\n\n<ion-content padding>\n\n    <p>{{ contact.name }}</p>\n\n    <p>{{ contact.descricao }}</p>\n\n    <p>{{ contact.tel }}</p>\n\n    <p>{{ contact.categoria }}</p>\n\n</ion-content>\n\n'/*ion-inline-end:"C:\Users\edson\Documents\GitHub\SureService3\SureService\src\pages\anuncio\anuncio.html"*/,
+            selector: 'page-anuncio',template:/*ion-inline-start:"C:\Users\edson\Documents\GitHub\SureService3\SureService\src\pages\anuncio\anuncio.html"*/'<ion-header>\n\n  <ion-navbar>\n\n    <ion-title>anuncio</ion-title>\n\n  </ion-navbar>\n\n</ion-header>\n\n\n\n<ion-content>\n\n  <div style="padding: 30px;">\n\n    <h1>{{ contact.name }}</h1>\n\n    <p>{{ contact.descricao }}</p>\n\n    <p>{{ contact.tel }}</p>\n\n    <p>{{ contact.categoria }}</p>\n\n  </div>\n\n</ion-content>\n\n'/*ion-inline-end:"C:\Users\edson\Documents\GitHub\SureService3\SureService\src\pages\anuncio\anuncio.html"*/,
         }),
-        __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["g" /* NavController */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["g" /* NavController */]) === "function" && _a || Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["h" /* NavParams */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["h" /* NavParams */]) === "function" && _b || Object, typeof (_c = typeof __WEBPACK_IMPORTED_MODULE_2__angular_forms__["a" /* FormBuilder */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_2__angular_forms__["a" /* FormBuilder */]) === "function" && _c || Object])
+        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1_ionic_angular__["g" /* NavController */],
+            __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["h" /* NavParams */],
+            __WEBPACK_IMPORTED_MODULE_2__angular_forms__["a" /* FormBuilder */]])
     ], AnuncioPage);
     return AnuncioPage;
-    var _a, _b, _c;
 }());
 
 //# sourceMappingURL=anuncio.js.map
@@ -144,7 +145,7 @@ var map = {
 		4
 	],
 	"../pages/initial/initial.module": [
-		494,
+		492,
 		3
 	],
 	"../pages/login/login.module": [
@@ -152,7 +153,7 @@ var map = {
 		2
 	],
 	"../pages/profile/profile.module": [
-		492,
+		494,
 		1
 	],
 	"../pages/signup/signup.module": [
@@ -279,9 +280,9 @@ var AppModule = /** @class */ (function () {
                         { loadChildren: '../pages/anuncio/anuncio.module#AnuncioPageModule', name: 'AnuncioPage', segment: 'anuncio', priority: 'low', defaultHistory: [] },
                         { loadChildren: '../pages/contact-edit/contact-edit.module#ContactEditPageModule', name: 'ContactEditPage', segment: 'contact-edit', priority: 'low', defaultHistory: [] },
                         { loadChildren: '../pages/home/home.module#HomePageModule', name: 'HomePage', segment: 'home', priority: 'low', defaultHistory: [] },
-                        { loadChildren: '../pages/profile/profile.module#ProfilePageModule', name: 'ProfilePage', segment: 'profile', priority: 'low', defaultHistory: [] },
-                        { loadChildren: '../pages/login/login.module#LoginPageModule', name: 'LoginPage', segment: 'login', priority: 'low', defaultHistory: [] },
                         { loadChildren: '../pages/initial/initial.module#InitialPageModule', name: 'InitialPage', segment: 'initial', priority: 'low', defaultHistory: [] },
+                        { loadChildren: '../pages/login/login.module#LoginPageModule', name: 'LoginPage', segment: 'login', priority: 'low', defaultHistory: [] },
+                        { loadChildren: '../pages/profile/profile.module#ProfilePageModule', name: 'ProfilePage', segment: 'profile', priority: 'low', defaultHistory: [] },
                         { loadChildren: '../pages/signup/signup.module#SignupPageModule', name: 'SignupPage', segment: 'signup', priority: 'low', defaultHistory: [] }
                     ]
                 }),
@@ -351,23 +352,12 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 
 var HomePage = /** @class */ (function () {
     function HomePage(navCtrl, alertCtrl, provider, geolocation) {
-        var _this = this;
         this.navCtrl = navCtrl;
         this.alertCtrl = alertCtrl;
         this.provider = provider;
         this.geolocation = geolocation;
         this.PATH = 'anuncios/';
         this.anuncios = [];
-        console.log("Carregando local...");
-        //let options = {timeout: 10000, enableHighAccuracy: true, maximumAge: 3600};
-        this.geolocation.getCurrentPosition().then(function (position) {
-            console.log("Latitude: " + position.coords.latitude);
-            console.log("Longitude: " + position.coords.longitude);
-            _this.latitude = position.coords.latitude;
-            _this.longitude = position.coords.longitude;
-        }).catch(function (error) {
-            console.log('Error getting location', error);
-        });
         this.data = this.provider.getAll();
     }
     HomePage.prototype.ionViewDidEnter = function () {
@@ -375,67 +365,77 @@ var HomePage = /** @class */ (function () {
     };
     HomePage.prototype.initMap = function () {
         var _this = this;
-        var options = {
-            center: { lat: -23.179264, lng: -45.8752 },
-            zoom: 14,
-            streetViewControl: false,
-            disableDefaultUI: true,
-            styles: [
-                {
-                    "featureType": "administrative.land_parcel",
-                    "elementType": "labels",
-                    "stylers": [
-                        {
-                            "visibility": "off"
-                        }
-                    ]
-                },
-                {
-                    "featureType": "poi.business",
-                    "stylers": [
-                        {
-                            "visibility": "off"
-                        }
-                    ]
-                },
-                {
-                    "featureType": "poi.park",
-                    "elementType": "labels.text",
-                    "stylers": [
-                        {
-                            "visibility": "off"
-                        }
-                    ]
-                },
-                {
-                    "featureType": "road.local",
-                    "elementType": "labels",
-                    "stylers": [
-                        {
-                            "visibility": "off"
-                        }
-                    ]
+        this.geolocation.getCurrentPosition().then(function (position) {
+            console.log("Latitude: " + position.coords.latitude);
+            console.log("Longitude: " + position.coords.longitude);
+            _this.latitude = position.coords.latitude;
+            _this.longitude = position.coords.longitude;
+            var options = {
+                center: { lat: _this.latitude, lng: _this.longitude },
+                zoom: 15,
+                streetViewControl: false,
+                disableDefaultUI: true,
+                animation: google.maps.Animation.DROP,
+                styles: [
+                    {
+                        "featureType": "administrative.land_parcel",
+                        "elementType": "labels",
+                        "stylers": [
+                            {
+                                "visibility": "off"
+                            }
+                        ]
+                    },
+                    {
+                        "featureType": "poi.business",
+                        "stylers": [
+                            {
+                                "visibility": "off"
+                            }
+                        ]
+                    },
+                    {
+                        "featureType": "poi.park",
+                        "elementType": "labels.text",
+                        "stylers": [
+                            {
+                                "visibility": "off"
+                            }
+                        ]
+                    },
+                    {
+                        "featureType": "road.local",
+                        "elementType": "labels",
+                        "stylers": [
+                            {
+                                "visibility": "off"
+                            }
+                        ]
+                    }
+                ]
+            };
+            console.log("Criando mapa...");
+            _this.map = new google.maps.Map(_this.mapElement.nativeElement, options);
+            _this.MyMarker(_this.map, position.coords.latitude, position.coords.longitude);
+            console.log("Carregando anuncios...");
+            _this.data.subscribe(function (anuncios) {
+                for (var _i = 0, anuncios_1 = anuncios; _i < anuncios_1.length; _i++) {
+                    var anuncio = anuncios_1[_i];
+                    _this.anuncios.push({
+                        name: anuncio.name,
+                        tel: anuncio.tel,
+                        latitude: anuncio.latitude,
+                        longitude: anuncio.longitude,
+                        categoria: anuncio.categoria,
+                        descricao: anuncio.descricao,
+                    });
+                    _this.addMarker(_this.map, anuncio.latitude, anuncio.longitude, anuncio.name, anuncio.categoria + '.png', anuncio.categoria, anuncio);
                 }
-            ]
-        };
-        console.log("Criando mapa...");
-        this.map = new google.maps.Map(this.mapElement.nativeElement, options);
-        console.log("Carregando anuncios...");
-        this.data.subscribe(function (anuncios) {
-            for (var _i = 0, anuncios_1 = anuncios; _i < anuncios_1.length; _i++) {
-                var anuncio = anuncios_1[_i];
-                _this.anuncios.push({
-                    name: anuncio.name,
-                    tel: anuncio.tel,
-                    latitude: anuncio.latitude,
-                    longitude: anuncio.longitude,
-                    categoria: anuncio.categoria,
-                    descricao: anuncio.descricao,
-                });
-                _this.addMarker(_this.map, anuncio.latitude, anuncio.longitude, anuncio.name, anuncio.categoria + '.png', anuncio.categoria, anuncio);
-            }
-            console.log("Anuncios inseridos: " + _this.anuncios.length);
-            console.log(_this.anuncios);
+                console.log("Anuncios inseridos: " + _this.anuncios.length);
+                console.log(_this.anuncios);
+            });
+        }).catch(function (error) {
+            console.log('Error getting location', error);
         });
     };
     HomePage.prototype.addMarker = function (map, latitude, longitude, titulo, marcador, categoria, anuncio) {
@@ -444,10 +444,18 @@ var HomePage = /** @class */ (function () {
             position: position,
             title: titulo,
             map: map,
-            animation: google.maps.Animation.DROP,
             icon: 'assets/imgs/' + marcador
         });
         this.addInfoWindowToMarker(marker, categoria, anuncio);
+        return marker;
+    };
+    HomePage.prototype.MyMarker = function (map, latitude, longitude) {
+        var position = new google.maps.LatLng(latitude, longitude);
+        var marker = new google.maps.Marker({
+            position: position,
+            animation: google.maps.Animation.DROP,
+            map: map,
+        });
         return marker;
     };
     HomePage.prototype.addInfoWindowToMarker = function (marker, categoria, anuncio) {
@@ -467,7 +475,8 @@ var HomePage = /** @class */ (function () {
         });*/
         marker.addListener('click', function () {
             //infoWindow.open(this.map, marker);
-            _this.navCtrl.push(__WEBPACK_IMPORTED_MODULE_7__anuncio_anuncio__["a" /* AnuncioPage */], { contact: anuncio });
+            //this.navCtrl.push(AnuncioPage, { contact: anuncio });
+            _this.presentAlert(anuncio);
         });
     };
     HomePage.prototype.NavMapa = function () {
@@ -484,18 +493,50 @@ var HomePage = /** @class */ (function () {
     HomePage.prototype.getAnuncio = function () {
         this.navCtrl.push(__WEBPACK_IMPORTED_MODULE_7__anuncio_anuncio__["a" /* AnuncioPage */]);
     };
+    HomePage.prototype.presentAlert = function (anuncio) {
+        var alert = this.alertCtrl.create({
+            title: anuncio.name,
+            subTitle: anuncio.categoria,
+            message: 'Descrição: ' + anuncio.descricao +
+                '<br>Telefone: ' + anuncio.tel,
+            buttons: [
+                {
+                    text: 'Enviar mensagem',
+                    handler: function () {
+                        console.log('');
+                    }
+                },
+                {
+                    text: 'Perfil do Anunciante',
+                    handler: function () {
+                        console.log('');
+                    }
+                },
+                {
+                    text: 'Voltar',
+                    role: 'cancel',
+                    handler: function () {
+                        console.log('Cancel clicked');
+                    }
+                },
+            ]
+        });
+        alert.present();
+    };
     __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["_8" /* ViewChild */])('map'),
-        __metadata("design:type", typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_0__angular_core__["t" /* ElementRef */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_0__angular_core__["t" /* ElementRef */]) === "function" && _a || Object)
+        __metadata("design:type", __WEBPACK_IMPORTED_MODULE_0__angular_core__["t" /* ElementRef */])
     ], HomePage.prototype, "mapElement", void 0);
     HomePage = __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["m" /* Component */])({
             selector: 'page-home',template:/*ion-inline-start:"C:\Users\edson\Documents\GitHub\SureService3\SureService\src\pages\home\home.html"*/'<!--\n\n<ion-header>\n\n  <ion-navbar>\n\n    <button ion-button menuToggle>\n\n      <ion-icon name="menu"></ion-icon>\n\n    </button>\n\n  </ion-navbar>\n\n</ion-header>-->\n\n\n\n<ion-content>\n\n  <div #map id="map"></div>\n\n\n\n  <ion-fab bottom right>\n\n    <button ion-fab color="primary" (click)="newContact()">\n\n      <ion-icon name="add"></ion-icon>\n\n    </button>\n\n  </ion-fab>\n\n  \n\n</ion-content>\n\n\n\n<ion-footer>\n\n  <ion-toolbar>\n\n    <ion-grid>  \n\n      <ion-row text-center>\n\n\n\n        <ion-col>   \n\n          <button (click)="NavMapa()" ion-button clear>\n\n            <ion-icon name=\'home\' style="zoom: 1.8;color:#0052EB"></ion-icon>\n\n            <p style="color:#0052EB; padding: 5px;">Home</p>\n\n          </button>\n\n        </ion-col>\n\n\n\n        <ion-col>  \n\n            <button (click)="NavAdverts()" style="color: #657280;" ion-button clear>\n\n              <ion-icon name=\'list-box\' style="zoom: 1.5;"></ion-icon>\n\n              <p style="padding: 5px;">Anuncios</p>\n\n            </button>\n\n          </ion-col>\n\n\n\n        <ion-col>  \n\n          <button (click)="NavProfile()" style="color: #657280;" ion-button clear>\n\n            <ion-icon name=\'person\' style="zoom: 1.5;"></ion-icon>\n\n            <p style="padding: 5px;">Conta</p>\n\n          </button>\n\n        </ion-col>\n\n<!--\n\n        <ion-col>  \n\n          <button ion-button clear>\n\n            <ion-icon name=\'settings\' style="zoom: 1.5;"></ion-icon>\n\n          </button>\n\n          Configurações\n\n        </ion-col>-->\n\n\n\n      </ion-row>  \n\n    </ion-grid>\n\n  </ion-toolbar>\n\n</ion-footer>'/*ion-inline-end:"C:\Users\edson\Documents\GitHub\SureService3\SureService\src\pages\home\home.html"*/
         }),
-        __metadata("design:paramtypes", [typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["g" /* NavController */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["g" /* NavController */]) === "function" && _b || Object, typeof (_c = typeof __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["a" /* AlertController */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["a" /* AlertController */]) === "function" && _c || Object, typeof (_d = typeof __WEBPACK_IMPORTED_MODULE_3__providers_contact_contact__["a" /* ContactProvider */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_3__providers_contact_contact__["a" /* ContactProvider */]) === "function" && _d || Object, typeof (_e = typeof __WEBPACK_IMPORTED_MODULE_6__ionic_native_geolocation__["a" /* Geolocation */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_6__ionic_native_geolocation__["a" /* Geolocation */]) === "function" && _e || Object])
+        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1_ionic_angular__["g" /* NavController */],
+            __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["a" /* AlertController */],
+            __WEBPACK_IMPORTED_MODULE_3__providers_contact_contact__["a" /* ContactProvider */],
+            __WEBPACK_IMPORTED_MODULE_6__ionic_native_geolocation__["a" /* Geolocation */]])
     ], HomePage);
     return HomePage;
-    var _a, _b, _c, _d, _e;
 }());
 
 //# sourceMappingURL=home.js.map
@@ -746,6 +787,15 @@ var ProfilePage = /** @class */ (function () {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_core__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_angularfire2_database__ = __webpack_require__(238);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_angularfire2_database___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_angularfire2_database__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_rxjs_operators__ = __webpack_require__(29);
+var __assign = (this && this.__assign) || Object.assign || function(t) {
+    for (var s, i = 1, n = arguments.length; i < n; i++) {
+        s = arguments[i];
+        for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
+            t[p] = s[p];
+    }
+    return t;
+};
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -758,6 +808,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 
 
 
+
 var ContactProvider = /** @class */ (function () {
     function ContactProvider(http, db) {
         this.http = http;
@@ -767,7 +818,13 @@ var ContactProvider = /** @class */ (function () {
         console.log('Hello ContactProvider Provider');
     }
     ContactProvider.prototype.getAll = function () {
-        return this.db.list(this.PATH).valueChanges();
+        return this.db.list(this.PATH).snapshotChanges().pipe(Object(__WEBPACK_IMPORTED_MODULE_3_rxjs_operators__["map"])(function (actions) {
+            return actions.map(function (a) {
+                var data = a.payload;
+                var id = a.payload.key;
+                return __assign({ id: id }, data);
+            });
+        })).subscribe();
     };
     ContactProvider.prototype.getAllKey = function () {
         return this.db.list(this.PATH).snapshotChanges();
@@ -810,9 +867,10 @@ var ContactProvider = /** @class */ (function () {
     };
     ContactProvider = __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_1__angular_core__["A" /* Injectable */])(),
-        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_0__angular_common_http__["a" /* HttpClient */], __WEBPACK_IMPORTED_MODULE_2_angularfire2_database__["AngularFireDatabase"]])
+        __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_0__angular_common_http__["a" /* HttpClient */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_0__angular_common_http__["a" /* HttpClient */]) === "function" && _a || Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_2_angularfire2_database__["AngularFireDatabase"] !== "undefined" && __WEBPACK_IMPORTED_MODULE_2_angularfire2_database__["AngularFireDatabase"]) === "function" && _b || Object])
     ], ContactProvider);
     return ContactProvider;
+    var _a, _b;
 }());
 
 //# sourceMappingURL=contact.js.map
@@ -1023,7 +1081,7 @@ var ContactEditPage = /** @class */ (function () {
         this.setupPageTitle();
     }
     ContactEditPage.prototype.setupPageTitle = function () {
-        this.title = this.navParams.data.contact ? 'Alterando contato' : 'Novo contato';
+        this.title = this.navParams.data.contact ? 'Alterar anuncio' : 'Novo anuncio';
     };
     ContactEditPage.prototype.createForm = function () {
         this.form = this.formBuilder.group({
@@ -1055,7 +1113,7 @@ var ContactEditPage = /** @class */ (function () {
     };
     ContactEditPage = __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_1__angular_core__["m" /* Component */])({
-            selector: 'page-contact-edit',template:/*ion-inline-start:"C:\Users\edson\Documents\GitHub\SureService3\SureService\src\pages\contact-edit\contact-edit.html"*/'<ion-header>\n\n    <ion-navbar>\n\n        <ion-title>{{title}}</ion-title>\n\n    </ion-navbar>\n\n  </ion-header>\n\n\n\n<ion-content padding>\n\n    <form [formGroup]="form">\n\n      <ion-item>\n\n        <ion-label floating>Nome</ion-label>\n\n        <ion-input type="text" formControlName="name"></ion-input>\n\n      </ion-item>\n\n\n\n      <ion-item>\n\n          <ion-label floating>Descrição</ion-label>\n\n          <ion-input type="text" formControlName="descricao"></ion-input>\n\n      </ion-item>\n\n  \n\n      <ion-item>\n\n        <ion-label floating>Telefone</ion-label>\n\n        <ion-input type="tel" formControlName="tel"></ion-input>\n\n      </ion-item>\n\n\n\n      <ion-item>\n\n          <ion-label floating>Latitute</ion-label>\n\n          <ion-input type="text" formControlName="latitude"></ion-input>\n\n      </ion-item>\n\n\n\n      <ion-item>\n\n          <ion-label floating>Longitude</ion-label>\n\n          <ion-input type="text" formControlName="longitude"></ion-input>\n\n      </ion-item>\n\n\n\n      <ion-item>\n\n          <ion-label floating>Categoria</ion-label>\n\n          <ion-select formControlName="categoria">\n\n            <ion-option value="Limpeza">Limpeza</ion-option>\n\n            <ion-option value="Manutenção">Manutenção</ion-option>\n\n            <ion-option value="Pintura">Pintura</ion-option>\n\n            <ion-option value="Educação">Educação</ion-option>\n\n            <ion-option value="Transporte">Transporte</ion-option>\n\n            <ion-option value="Babá">Babá</ion-option>\n\n            <ion-option value="Jardinagem">Jardinagem</ion-option>\n\n            <ion-option value="Outros">Outros</ion-option>\n\n          </ion-select>\n\n      </ion-item>\n\n  \n\n      <div padding>\n\n        <button ion-button style="height: 50px" block type="submit" [disabled]="!form.valid" (click)="onSubmit()">Salvar</button>\n\n      </div>\n\n    </form>\n\n</ion-content>'/*ion-inline-end:"C:\Users\edson\Documents\GitHub\SureService3\SureService\src\pages\contact-edit\contact-edit.html"*/,
+            selector: 'page-contact-edit',template:/*ion-inline-start:"C:\Users\edson\Documents\GitHub\SureService3\SureService\src\pages\contact-edit\contact-edit.html"*/'<ion-header>\n\n    <ion-navbar>\n\n        <ion-title>{{title}}</ion-title>\n\n    </ion-navbar>\n\n  </ion-header>\n\n\n\n<ion-content padding>\n\n  <div style="padding: 25px;">\n\n    <form [formGroup]="form">\n\n      <ion-item>\n\n        <ion-label floating>Nome</ion-label>\n\n        <ion-input type="text" formControlName="name"></ion-input>\n\n      </ion-item>\n\n\n\n      <ion-item>\n\n          <ion-label floating>Descrição</ion-label>\n\n          <ion-input type="text" formControlName="descricao"></ion-input>\n\n      </ion-item>\n\n  \n\n      <ion-item>\n\n        <ion-label floating>Telefone</ion-label>\n\n        <ion-input type="tel" formControlName="tel"></ion-input>\n\n      </ion-item>\n\n\n\n      <ion-item>\n\n          <ion-label floating>Latitute</ion-label>\n\n          <ion-input type="text" formControlName="latitude"></ion-input>\n\n      </ion-item>\n\n\n\n      <ion-item>\n\n          <ion-label floating>Longitude</ion-label>\n\n          <ion-input type="text" formControlName="longitude"></ion-input>\n\n      </ion-item>\n\n\n\n      <ion-item>\n\n          <ion-label floating>Categoria</ion-label>\n\n          <ion-select formControlName="categoria">\n\n            <ion-option value="Limpeza">Limpeza</ion-option>\n\n            <ion-option value="Manutenção">Manutenção</ion-option>\n\n            <ion-option value="Pintura">Pintura</ion-option>\n\n            <ion-option value="Educação">Educação</ion-option>\n\n            <ion-option value="Transporte">Transporte</ion-option>\n\n            <ion-option value="Babá">Babá</ion-option>\n\n            <ion-option value="Jardinagem">Jardinagem</ion-option>\n\n            <ion-option value="Outros">Outros</ion-option>\n\n          </ion-select>\n\n      </ion-item>\n\n  \n\n      <div padding>\n\n        <button ion-button style="height: 50px" block type="submit" [disabled]="!form.valid" (click)="onSubmit()">Salvar</button>\n\n      </div>\n\n    </form>\n\n  </div>\n\n</ion-content>'/*ion-inline-end:"C:\Users\edson\Documents\GitHub\SureService3\SureService\src\pages\contact-edit\contact-edit.html"*/,
         }),
         __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_2_ionic_angular__["g" /* NavController */], __WEBPACK_IMPORTED_MODULE_2_ionic_angular__["h" /* NavParams */],
             __WEBPACK_IMPORTED_MODULE_3__angular_forms__["a" /* FormBuilder */], __WEBPACK_IMPORTED_MODULE_0__providers_contact_contact__["a" /* ContactProvider */],
