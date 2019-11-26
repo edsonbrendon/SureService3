@@ -3,6 +3,7 @@ import { IonicPage, NavController, NavParams, ToastController } from 'ionic-angu
 import { LoginPage } from '../../pages/login/login';
 import { HomePage } from '../../pages/home/home';
 import { AngularFireAuth } from 'angularfire2/auth';
+import { AngularFireDatabase } from 'angularfire2/database';
 
 @IonicPage()
 @Component({
@@ -19,7 +20,8 @@ export class SignupPage {
     public navCtrl: NavController, 
     public navParams: NavParams,
     public toastCtrl: ToastController,
-    public firebaseauth: AngularFireAuth) {
+    public firebaseauth: AngularFireAuth,
+    public db: AngularFireDatabase) {
       firebaseauth.user.subscribe((data => {
         this.user = data;
       }));     
@@ -28,6 +30,15 @@ export class SignupPage {
   createAccount(){
     this.firebaseauth.auth.createUserWithEmailAndPassword(this.email.value , this.password.value)
     .then(() => {
+      
+      //Envia e-mail de verificação
+      var user = this.firebaseauth.auth.currentUser;
+        user.sendEmailVerification().then(function() {
+          console.log('Enviado e-mail de verificação para '+ user.email);
+        }).catch(function(error) {
+          console.log(error);
+      });
+
       this.exibirToast('Usuário criado com sucesso');
       this.navCtrl.setRoot(HomePage);
     })
