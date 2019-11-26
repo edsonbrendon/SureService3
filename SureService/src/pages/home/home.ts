@@ -35,7 +35,8 @@ export class HomePage {
     public alertCtrl: AlertController,
     public provider: ContactProvider,
     private geolocation: Geolocation) {
-    this.data = this.provider.getAll();
+      this.data = null;
+      this.data = this.provider.getAll();
   }
 
   ionViewDidEnter() {

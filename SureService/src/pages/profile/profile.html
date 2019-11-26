@@ -9,8 +9,10 @@
         <h3>Bem vindo: </h3>
         <p>{{ user.email }}</p>
         <br>
-        <button ion-button block outline (click)="Sair()">Sair</button>
-      </div>
+        <a style="padding-top: 100%;" (click)="deleteConfirm()">Deletar Conta</a>
+        <br><br>
+        <button ion-button block outline  style="height: 50px" (click)="Sair()">Sair</button>
+    </div>
 </ion-content>
 
 <ion-footer>

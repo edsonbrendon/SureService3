@@ -4,6 +4,7 @@ import { HomePage } from '../home/home';
 import { AdvertsPage } from '../adverts/adverts';
 import { AngularFireAuth } from 'angularfire2/auth';
 import { InitialPage } from '../initial/initial';
+import { AlertController } from 'ionic-angular';
 
 @IonicPage()
 @Component({
@@ -20,7 +21,8 @@ export class ProfilePage {
       public navCtrl: NavController,
       public toastCtrl: ToastController,
       public firebaseauth: AngularFireAuth,
-      public navParams: NavParams) {
+      public navParams: NavParams,
+      private alertCtrl: AlertController) {
       firebaseauth.user.subscribe((data => {
         this.user = data;
       }));     
@@ -52,11 +54,43 @@ export class ProfilePage {
     });
   }
 
-private exibirToast(mensagem: string): void {
-    let toast = this.toastCtrl.create({duration: 3000, 
-                                      position: 'top'});
+  deletarConta(){
+    this.user.delete().then(() => {
+      console.log('Usuário '+this.user.email+' deletado!');
+      this.exibirToast('Conta Deletada com Sucesso!');
+      this.navCtrl.setRoot(InitialPage);
+    }).catch(function(error) {
+      this.exibirToast(error);
+    });
+  }
+
+  public exibirToast(mensagem: string): void {
+    let toast = this.toastCtrl.create({duration: 3000,position: 'top'});
     toast.setMessage(mensagem);
     toast.present();
   }
 
+  deleteConfirm() {
+    let alert = this.alertCtrl.create({
+      title: 'Tem certeza?',
+      message: 'Está ação não poderá ser desfeita.',
+      buttons: [
+        {
+          text: 'Cancelar',
+          role: 'cancel',
+          handler: () => {
+            console.log('Cancel clicked');
+          }
+        },
+        {
+          text: 'Deletar',
+          handler: () => {
+            console.log('Delete clicked');
+            this.deletarConta();
+          }
+        }
+      ]
+    });
+    alert.present();
+  }
 }
