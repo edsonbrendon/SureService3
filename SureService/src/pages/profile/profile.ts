@@ -25,7 +25,7 @@ export class ProfilePage {
       private alertCtrl: AlertController) {
       firebaseauth.user.subscribe((data => {
         this.user = data;
-      }));     
+      })); 
   }
   
   ionViewDidLoad() {
@@ -46,7 +46,6 @@ export class ProfilePage {
   public Sair(): void {
     this.firebaseauth.auth.signOut()
     .then(() => {
-      this.exibirToast('Você saiu');
       this.navCtrl.setRoot(InitialPage);
     })
     .catch((erro: any) => {
@@ -79,18 +78,60 @@ export class ProfilePage {
           text: 'Cancelar',
           role: 'cancel',
           handler: () => {
-            console.log('Cancel clicked');
+            console.log('Operação Cancelada');
           }
         },
         {
-          text: 'Deletar',
+          text: 'Deletar Conta',
           handler: () => {
-            console.log('Delete clicked');
+            console.log('Operação Cancelada');
             this.deletarConta();
           }
         }
       ]
     });
     alert.present();
+  }
+  
+  alterPassAlert() {
+    let alert = this.alertCtrl.create({
+      title: 'Insira um senha nova',
+      inputs: [
+        {
+          name: 'senha',
+          type: 'password',
+          placeholder: 'Nova Senha'
+        }
+      ],
+      buttons: [
+        {
+          text: 'Cancelar',
+          role: 'cancel',
+          handler: () => {
+            console.log('Operação Cancelada');
+          }
+        },
+        {
+          text: 'Atualizar',
+          handler: data => {
+            if (data.senha) {
+              this.alterPass(data.senha);
+            } else {
+              this.exibirToast('Erro ao alterar Senha!');
+              return false;
+            }
+          }
+        }
+      ]
+    });
+    alert.present();
+  }
+
+  alterPass(senha){
+    this.user.updatePassword(senha).then(function() {
+      this.exibirToast('Senha alterada com sucesso!');
+    }).catch(function(error) {
+      console.log(error);
+    });
   }
 }

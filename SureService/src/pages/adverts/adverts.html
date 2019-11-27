@@ -7,20 +7,20 @@
 <ion-content>
   <ion-list  style="padding: 15px;">
     <ion-item-sliding *ngFor="let contact of contacts | async">
-      <ion-item>
+      <ion-item (click)="editContact(contact)">
         <h1>{{ contact.name }}</h1>
         <p>{{ contact.descricao }}</p>
         <p>Telefone: {{ contact.tel }}</p>
         <p>Categoria: {{ contact.categoria }}</p>
       </ion-item>
-        <ion-item-options side="left">
+     <!--   <ion-item-options side="left">
         <button ion-button clear (click)="editContact(contact)">
           <ion-icon name="create" style="zoom: 1.5;"></ion-icon>
         </button>
         <button ion-button clear (click)="removeContact(contact.key)">
           <ion-icon name="trash" style="zoom: 1.5;"></ion-icon>
         </button>
-      </ion-item-options>
+      </ion-item-options>-->
     </ion-item-sliding>
   </ion-list> 
   </ion-content>

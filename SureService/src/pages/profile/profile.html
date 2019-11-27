@@ -6,12 +6,18 @@
 
 <ion-content padding>
     <div *ngIf="user != null" style="padding: 20px;">
+        <ion-icon name='contact' style="zoom: 5.0;"></ion-icon>
         <h3>Bem vindo: </h3>
         <p>{{ user.email }}</p>
-        <br>
-        <a style="padding-top: 100%;" (click)="deleteConfirm()">Deletar Conta</a>
-        <br><br>
-        <button ion-button block outline  style="height: 50px" (click)="Sair()">Sair</button>
+
+        <div style="padding: 15px;">
+          <h6 style="color: #0052EB;">Atualizar Informações</h6>
+          <h6 style="color: #0052EB;" (click)="alterPassAlert()">Alterar Senha</h6>
+          <h6 style="color: #0052EB;" (click)="deleteConfirm()">Deletar Conta</h6>
+        </div>
+        <div>
+          <button ion-button block outline  style="height: 50px" (click)="Sair()">SAIR</button>
+        </div>
     </div>
 </ion-content>
 

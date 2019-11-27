@@ -20,10 +20,10 @@ export class HomePage {
 
   public PATH = 'anuncios/';
 
-  public data;
+  public data = null;
   public anuncios = [];
-  public latitude;
-  public longitude;
+  public latitude = null;
+  public longitude = null;
 
   @ViewChild('map') mapElement: ElementRef;
 
