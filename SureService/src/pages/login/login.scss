@@ -1,14 +1,18 @@
 page-login {
 
-    .titulo {font-weight: bold;}
+    .titulo {
+        font-weight: bold;
+    }
     
-    .subtitulo{text-align: center;}  
+    .subtitulo{
+        text-align: center;
+    }  
 
     #btn_login {
-        background: #0062ff; 
+        background: #222; 
         color: white;
-        border-color: #0062ff; 
         height: 50px;
+        border: none;
     }
       
 }

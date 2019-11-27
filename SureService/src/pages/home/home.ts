@@ -55,43 +55,54 @@ export class HomePage {
         streetViewControl: false,
         disableDefaultUI: true,
         animation: google.maps.Animation.DROP,
-        styles: [
+        styles:[
           {
-            "featureType": "administrative.land_parcel",
-            "elementType": "labels",
-            "stylers": [
-              {
-                "visibility": "off"
-              }
-            ]
+              "featureType": "all",
+              "stylers": [
+                  {
+                      "saturation": 0
+                  },
+                  {
+                      "hue": "#e7ecf0"
+                  }
+              ]
           },
           {
-            "featureType": "poi.business",
-            "stylers": [
-              {
-                "visibility": "off"
-              }
-            ]
+              "featureType": "road",
+              "stylers": [
+                  {
+                      "saturation": -70
+                  }
+              ]
           },
           {
-            "featureType": "poi.park",
-            "elementType": "labels.text",
-            "stylers": [
-              {
-                "visibility": "off"
-              }
-            ]
+              "featureType": "transit",
+              "stylers": [
+                  {
+                      "visibility": "off"
+                  }
+              ]
           },
           {
-            "featureType": "road.local",
-            "elementType": "labels",
-            "stylers": [
-              {
-                "visibility": "off"
-              }
-            ]
+              "featureType": "poi",
+              "stylers": [
+                  {
+                      "visibility": "off"
+                  }
+              ]
+          },
+          {
+              "featureType": "water",
+              "stylers": [
+                  {
+                      "visibility": "simplified"
+                  },
+                  {
+                      "saturation": -60
+                  }
+              ]
           }
-        ]
+      ]
       }
       console.log("Criando mapa...");
       this.map = new google.maps.Map(this.mapElement.nativeElement, options);

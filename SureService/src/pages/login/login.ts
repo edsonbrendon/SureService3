@@ -38,7 +38,7 @@ export class LoginPage {
   Login(){
     this.firebaseauth.auth.signInWithEmailAndPassword(this.email.value , this.password.value)
       .then(() => {
-        this.exibirToast('Login efetuado com sucesso');
+        this.exibirToast('Login efetuado com sucesso!');
         this.navCtrl.setRoot(HomePage);
       })
       .catch((erro: any) => {
