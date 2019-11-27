@@ -13,8 +13,9 @@ page-initial {
     #btn_Iniciar {
         background: white; 
         color:#0062ff;
-        border-color: white;
+        border: none;
         height: 50px;
+        font-weight: bold;
     }
     
     .Subtitulo {
@@ -29,5 +30,6 @@ page-initial {
     .Grupo {
         padding: 40px;
         padding-top: 100%;
+        font-weight: bold;
     }
 }

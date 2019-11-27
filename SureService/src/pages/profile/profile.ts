@@ -71,7 +71,7 @@ export class ProfilePage {
 
   deleteConfirm() {
     let alert = this.alertCtrl.create({
-      title: 'Tem certeza?',
+      title: 'Tem certeza que deseja deletar esta conta?',
       message: 'Está ação não poderá ser desfeita.',
       buttons: [
         {
@@ -82,7 +82,7 @@ export class ProfilePage {
           }
         },
         {
-          text: 'Deletar Conta',
+          text: 'Deletar',
           handler: () => {
             console.log('Operação Cancelada');
             this.deletarConta();
