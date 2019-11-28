@@ -5,7 +5,6 @@ import { SplashScreen } from '@ionic-native/splash-screen';
 import { HomePage } from '../pages/home/home';
 import { InitialPage } from '../pages/initial/initial';
 import { ProfilePage } from '../pages/profile/profile';
-import { AdvertsPage } from '../pages/adverts/adverts';
 import { AngularFireAuth } from 'angularfire2/auth';
 import * as firebase from 'firebase/app';
 
@@ -24,7 +23,8 @@ export class MyApp {
     public platform: Platform, 
     public statusBar: StatusBar, 
     public splashScreen: SplashScreen,
-    public afAuth: AngularFireAuth) {
+    public afAuth: AngularFireAuth,
+    public firebaseauth: AngularFireAuth) {
       afAuth.authState.subscribe(user => {
         this.user = user;
       });
@@ -32,8 +32,8 @@ export class MyApp {
 
       this.pages = [
         { title: 'Home', component: HomePage },
-        { title: 'Meus Anuncios', component: AdvertsPage },
-        { title: 'Perfil', component: ProfilePage }
+        { title: 'Perfil', component: ProfilePage },
+        { title: 'Sair', component: InitialPage }
       ];
   }
 
@@ -58,6 +58,14 @@ export class MyApp {
   }
 
   openPage(page) {
-    this.nav.setRoot(page.component);
+    if(page.title == 'Sair'){
+      this.firebaseauth.auth.signOut()
+      .then(() => {
+        this.nav.setRoot(InitialPage);
+      });
+    }
+    else{
+      this.nav.setRoot(page.component);
+    }
   }
 }

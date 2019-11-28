@@ -25705,6 +25705,18 @@ page-home #map {
   height: 100%;
 }
 
+page-home .toolbar {
+  position: absolute;
+}
+
+page-home .toolbar .toolbar-background {
+  background: transparent;
+}
+
+page-home .toolbar .toolbar-title {
+  color: black;
+}
+
 page-initial .background {
   background: url("../../assets/imgs/wallpaper.png");
 }

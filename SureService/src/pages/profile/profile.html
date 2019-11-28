@@ -1,6 +1,9 @@
 <ion-header>
   <ion-navbar>
-    <ion-title>Minha Conta</ion-title>
+    <button ion-button menuToggle>
+      <ion-icon name="menu" style="zoom: 1.4;color: #222;"></ion-icon>
+    </button>
+    <ion-title>Configurações da Conta</ion-title>
   </ion-navbar>
 </ion-header>
 
@@ -15,46 +18,5 @@
           <h6 style="color: #0052EB;" (click)="alterPassAlert()">Alterar Senha</h6>
           <h6 style="color: #0052EB;" (click)="deleteConfirm()">Deletar Conta</h6>
         </div>
-        <div>
-          <button ion-button block outline  style="height: 50px" (click)="Sair()">SAIR</button>
-        </div>
     </div>
 </ion-content>
-
-<ion-footer>
-    <ion-toolbar>
-      <ion-grid>  
-        <ion-row text-center>
-
-          <ion-col>   
-            <button (click)="NavMapa()" style="color: #657280;" ion-button clear>
-              <ion-icon name='home' style="zoom: 1.5;"></ion-icon>
-              <p style="padding: 5px;">Home</p>
-            </button>
-          </ion-col>
-
-          <ion-col>  
-              <button (click)="NavAdverts()" style="color: #657280;" ion-button clear>
-                <ion-icon name='list-box' style="zoom: 1.5;"></ion-icon>
-                <p style="padding: 5px;">Anuncios</p>
-              </button>
-            </ion-col>
-  
-          <ion-col>  
-            <button (click)="NavProfile()" ion-button clear>
-              <ion-icon name='person' style="zoom: 1.8;color:#0052EB"></ion-icon>
-              <p style="color:#0052EB; padding: 5px;">Conta</p>
-            </button>
-          </ion-col>
-  <!--
-          <ion-col>  
-            <button ion-button clear>
-              <ion-icon name='settings' style="zoom: 1.5;"></ion-icon>
-            </button>
-            Configurações
-          </ion-col>-->
-  
-        </ion-row>  
-      </ion-grid>
-    </ion-toolbar>
-  </ion-footer>

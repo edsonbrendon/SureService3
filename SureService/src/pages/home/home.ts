@@ -1,5 +1,5 @@
 import { Component, ViewChild, ElementRef } from '@angular/core';
-import { NavController } from 'ionic-angular';
+import { NavController, MenuController } from 'ionic-angular';
 import { IonicPage } from 'ionic-angular';
 import { AlertController } from 'ionic-angular';
 import { AdvertsPage } from '../adverts/adverts';
@@ -34,7 +34,9 @@ export class HomePage {
     public navCtrl: NavController,
     public alertCtrl: AlertController,
     public provider: ContactProvider,
-    private geolocation: Geolocation) {
+    private geolocation: Geolocation,
+    public menuCtrl: MenuController) {
+      this.menuCtrl.enable(true, 'MyMenu');
       this.data = null;
       this.data = this.provider.getAll();
   }
