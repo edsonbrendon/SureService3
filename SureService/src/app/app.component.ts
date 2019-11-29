@@ -17,7 +17,7 @@ export class MyApp {
   rootPage: any;
   public user: firebase.User;
 
-  pages: Array<{title: string, component: any}>;
+  pages: Array<{title: string, component: any, icon: any}>;
 
   constructor(
     public platform: Platform, 
@@ -31,9 +31,9 @@ export class MyApp {
       this.initializeApp();
 
       this.pages = [
-        { title: 'Home', component: HomePage },
-        { title: 'Perfil', component: ProfilePage },
-        { title: 'Sair', component: InitialPage }
+        { title: 'Home', component: HomePage, icon: 'home' },
+        { title: 'Configurações da Conta', component: ProfilePage, icon: 'construct'  },
+        { title: 'Sair', component: InitialPage, icon: 'exit' }
       ];
   }
 
