@@ -1,11 +1,9 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavParams } from 'ionic-angular';
-import { HomePage } from '../home/home';
 import { ContactProvider } from './../../providers/contact/contact';
 import { NavController, ToastController } from 'ionic-angular';
 import { Observable } from 'rxjs/Observable';
 import { ContactEditPage } from '../contact-edit/contact-edit';
-import { ProfilePage } from '../profile/profile';
 
 @IonicPage()
 @Component({
@@ -25,17 +23,6 @@ export class AdvertsPage {
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad AdvertsPage');
-  }
-  
-  NavMapa(){
-    this.navCtrl.setRoot(HomePage,{},{animate:false});
-  }
-
-  NavAdverts(){
-  }
-  
-  NavProfile(){
-    this.navCtrl.setRoot(ProfilePage,{},{animate:false});
   }
 
   editContact(contact: any) {

@@ -19,6 +19,10 @@ import { ContactProvider } from '../providers/contact/contact';
 import { AdvertsPage } from '../pages/adverts/adverts';
 import { ContactEditPage } from '../pages/contact-edit/contact-edit';
 import { AnuncioPage } from '../pages/anuncio/anuncio';
+import { TabsPage } from '../pages/tabs/tabs';
+import { ConversationsPage } from '../pages/conversations/conversations';
+import { ChatPage } from '../pages/chat/chat';
+import { PerfilPage } from '../pages/perfil/perfil';
 
 import { Geolocation } from '@ionic-native/geolocation';
 
@@ -43,7 +47,11 @@ export const firebaseConfig = {
     SignupPage,
     AdvertsPage,
     ContactEditPage,
-    AnuncioPage
+    AnuncioPage,
+    TabsPage,
+    ConversationsPage,
+    ChatPage,
+    PerfilPage
   ],
   imports: [
     BrowserModule,
@@ -62,7 +70,11 @@ export const firebaseConfig = {
     SignupPage,
     AdvertsPage,
     ContactEditPage,
-    AnuncioPage
+    AnuncioPage,
+    TabsPage,
+    ConversationsPage,
+    ChatPage,
+    PerfilPage
   ],
   providers: [
     StatusBar,

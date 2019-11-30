@@ -9,13 +9,17 @@
 
 <ion-content padding>
     <div *ngIf="user != null" style="padding: 20px;">
-        <ion-icon name='contact' style="zoom: 5.0;"></ion-icon>
-        <h3>Bem vindo: </h3>
-        <p>{{ user.email }}</p>
-
-        <div style="padding: 15px;">
-          <h6 style="color: #0052EB;" (click)="alterPassAlert()">Alterar Senha</h6>
-          <h6 style="color: #0052EB;" (click)="deleteConfirm()">Deletar Conta</h6>
-        </div>
+      <ion-icon name='contact' style="zoom: 5.0;"></ion-icon>
+      <h3>Bem vindo: </h3>
+      <p>{{ user.email }}</p>
+        
+      <ion-list style="padding: 15px;">
+        <button ion-item (click)="alterPassAlert()">
+          <div style="color: #0052EB;">Alterar Senha</div>
+        </button>
+        <button ion-item (click)="deleteConfirm()">
+          <div style="color: #0052EB;">Deletar Conta</div>
+        </button>
+      </ion-list>
     </div>
 </ion-content>

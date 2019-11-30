@@ -1,10 +1,9 @@
+import { TabsPage } from './../tabs/tabs';
 import { Component, ViewChild, ElementRef } from '@angular/core';
 import { NavController, MenuController } from 'ionic-angular';
 import { IonicPage } from 'ionic-angular';
 import { AlertController } from 'ionic-angular';
-import { AdvertsPage } from '../adverts/adverts';
 import { ContactProvider } from './../../providers/contact/contact';
-import { ProfilePage } from '../profile/profile';
 import { ContactEditPage } from '../contact-edit/contact-edit';
 import { Geolocation } from '@ionic-native/geolocation';
 import { AnuncioPage } from '../anuncio/anuncio';
@@ -173,17 +172,6 @@ export class HomePage {
       //this.navCtrl.push(AnuncioPage, { contact: anuncio });
       this.presentAlert(anuncio);
     });
-  }
-
-  NavMapa() {
-  }
-
-  NavAdverts() {
-    this.navCtrl.setRoot(AdvertsPage, {}, { animate: false });
-  }
-
-  NavProfile() {
-    this.navCtrl.setRoot(ProfilePage, {}, { animate: false });
   }
 
   newContact() {
