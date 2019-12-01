@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import * as firebase from 'Firebase';
 
 @IonicPage()
 @Component({
@@ -8,10 +9,41 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
 })
 export class ConversationsPage {
 
+  rooms = [];
+  ref = firebase.database().ref('chatrooms/');
+
   constructor(public navCtrl: NavController, public navParams: NavParams) {
+    this.ref.on('value', resp => {
+      this.rooms = [];
+      this.rooms = snapshotToArray(resp);
+    });
+  }
+
+  addRoom() {
+    this.navCtrl.push(AddRoomPage);
+  }
+
+  joinRoom(key) {
+    this.navCtrl.setRoot(HomePage, {
+      key:key,
+      nickname:this.navParams.get("nickname")
+    });
   }
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad ConversationsPage');
   }
 }
+
+export const snapshotToArray = snapshot => {
+  let returnArr = [];
+
+  snapshot.forEach(childSnapshot => {
+      let item = childSnapshot.val();
+      item.key = childSnapshot.key;
+      returnArr.push(item);
+  });
+
+  return returnArr;
+};
+

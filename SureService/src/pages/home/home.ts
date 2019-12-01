@@ -1,4 +1,3 @@
-import { TabsPage } from './../tabs/tabs';
 import { Component, ViewChild, ElementRef } from '@angular/core';
 import { NavController, MenuController } from 'ionic-angular';
 import { IonicPage } from 'ionic-angular';

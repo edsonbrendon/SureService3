@@ -11,6 +11,7 @@ import { PerfilPage } from '../perfil/perfil';
   templateUrl: 'tabs.html',
 })
 export class TabsPage {
+  
   constructor(public navCtrl: NavController, public navParams: NavParams) {
   }
 
