@@ -11,17 +11,15 @@ import { PerfilPage } from '../perfil/perfil';
   templateUrl: 'tabs.html',
 })
 export class TabsPage {
-
   constructor(public navCtrl: NavController, public navParams: NavParams) {
   }
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad TabsPage');
   }
-
+  
   NavMapa(){this.navCtrl.setRoot(HomePage,{},{animate:false});}
   NavAdverts(){this.navCtrl.setRoot(AdvertsPage,{},{animate:false});}
   NavConversations(){this.navCtrl.setRoot(ConversationsPage,{},{animate:false});}
   NavPerfil(){this.navCtrl.setRoot(PerfilPage,{},{animate:false});}
-
 }

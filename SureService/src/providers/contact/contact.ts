@@ -35,7 +35,8 @@ export class ContactProvider {
             latitude: contact.latitude,
             longitude: contact.longitude,
             categoria: contact.categoria,
-            descricao: contact.descricao })
+            descricao: contact.descricao,
+            anunciante: contact.anunciante })
           .then(() => resolve())
           .catch((e) => reject(e));
       } else {
@@ -46,7 +47,8 @@ export class ContactProvider {
             latitude: contact.latitude,
             longitude: contact.longitude,
             categoria: contact.categoria,
-            descricao: contact.descricao})
+            descricao: contact.descricao,
+            anunciante: contact.anunciante })
           .then(() => resolve());
       }
     })

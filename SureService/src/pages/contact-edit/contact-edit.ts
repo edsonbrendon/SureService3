@@ -2,6 +2,7 @@ import { ContactProvider } from './../../providers/contact/contact';
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, ToastController } from 'ionic-angular';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { AngularFireAuth } from 'angularfire2/auth';
 
 @IonicPage()
 @Component({
@@ -13,17 +14,25 @@ export class ContactEditPage {
   title: string;
   form: FormGroup;
   contact: any;
+  public user: any;
+  user_uid: string
 
   constructor(
-    public navCtrl: NavController, public navParams: NavParams,
-    private formBuilder: FormBuilder, private provider: ContactProvider,
-    private toast: ToastController) {
-
-    this.contact = this.navParams.data.contact || { };
-    this.createForm();
-
-    this.setupPageTitle();
-  }
+    public navCtrl: NavController, 
+    public navParams: NavParams,
+    private formBuilder: FormBuilder, 
+    private provider: ContactProvider,
+    private toast: ToastController,
+    public firebaseauth: AngularFireAuth,) {
+      firebaseauth.user.subscribe((data => {
+        this.user = data;
+        this.user_uid = data.uid;
+        console.log(this.user);
+      })); 
+      this.contact = this.navParams.data.contact || { };
+      this.createForm();
+      this.setupPageTitle();
+    }
 
   private setupPageTitle() {
     this.title = this.navParams.data.contact ? 'Alterar Anuncio' : 'Novo Anuncio';
@@ -38,6 +47,7 @@ export class ContactEditPage {
       longitude: [this.contact.longitude, Validators.required],
       categoria: [this.contact.categoria, Validators.required],
       descricao: [this.contact.descricao, Validators.required],
+      anunciante: [this.user_uid],
     });
   }
 
@@ -53,9 +63,5 @@ export class ContactEditPage {
           console.error(e);
         })
     }
-  }
-
-  Back(){
-   this.navCtrl.pop();
   }
 }

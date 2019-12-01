@@ -23,6 +23,7 @@ import { TabsPage } from '../pages/tabs/tabs';
 import { ConversationsPage } from '../pages/conversations/conversations';
 import { ChatPage } from '../pages/chat/chat';
 import { PerfilPage } from '../pages/perfil/perfil';
+import { AlterPerfilPage } from '../pages/alter-perfil/alter-perfil';
 
 import { Geolocation } from '@ionic-native/geolocation';
 
@@ -51,7 +52,8 @@ export const firebaseConfig = {
     TabsPage,
     ConversationsPage,
     ChatPage,
-    PerfilPage
+    PerfilPage,
+    AlterPerfilPage
   ],
   imports: [
     BrowserModule,
@@ -74,7 +76,8 @@ export const firebaseConfig = {
     TabsPage,
     ConversationsPage,
     ChatPage,
-    PerfilPage
+    PerfilPage,
+    AlterPerfilPage
   ],
   providers: [
     StatusBar,
