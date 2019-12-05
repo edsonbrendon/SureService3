@@ -1,9 +1,9 @@
-import { Component } from '@angular/core';
+import { Component, ComponentFactoryResolver } from '@angular/core';
 import { IonicPage, NavParams } from 'ionic-angular';
 import { ContactProvider } from './../../providers/contact/contact';
 import { NavController, ToastController } from 'ionic-angular';
-import { Observable } from 'rxjs/Observable';
 import { ContactEditPage } from '../contact-edit/contact-edit';
+import { AngularFireAuth } from 'angularfire2/auth';
 
 @IonicPage()
 @Component({
@@ -11,14 +11,24 @@ import { ContactEditPage } from '../contact-edit/contact-edit';
   templateUrl: 'adverts.html',
 })
 export class AdvertsPage {
-  contacts: Observable<any>;
+ 
+  //contacts: Observable<any>;
+
+  contacts;
+  user_uid: string
 
   constructor(
     public navCtrl: NavController, 
     public navParams: NavParams, 
     private provider: ContactProvider,
-    private toast: ToastController) {
+    private toast: ToastController,
+    public firebaseauth: AngularFireAuth) {
+      firebaseauth.user.subscribe((data => {
+        this.user_uid = data.uid;
+      })); 
+       //this.contacts = this.provider.getAll();
        this.contacts = this.provider.getAll();
+       console.log(this.contacts);
   }
 
   ionViewDidLoad() {

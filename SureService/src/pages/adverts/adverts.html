@@ -11,7 +11,7 @@
   <ion-list  style="padding: 15px;">
     <ion-item-sliding *ngFor="let contact of contacts | async">
       <ion-item (click)="editContact(contact)">
-        <h1 style="color: #0052EB;">{{ contact.name }}</h1>
+        <h1>{{ contact.name }}</h1>
         <p>{{ contact.descricao }}</p>
         <p>Telefone: {{ contact.tel }}</p>
         <p>Categoria: {{ contact.categoria }}</p>

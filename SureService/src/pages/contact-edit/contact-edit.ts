@@ -23,7 +23,7 @@ export class ContactEditPage {
     private formBuilder: FormBuilder, 
     private provider: ContactProvider,
     private toast: ToastController,
-    public firebaseauth: AngularFireAuth,) {
+    public firebaseauth: AngularFireAuth) {
       firebaseauth.user.subscribe((data => {
         this.user = data;
         this.user_uid = data.uid;
@@ -47,12 +47,15 @@ export class ContactEditPage {
       longitude: [this.contact.longitude, Validators.required],
       categoria: [this.contact.categoria, Validators.required],
       descricao: [this.contact.descricao, Validators.required],
-      anunciante: [this.user_uid],
+      anuncianteID: [this.user_uid],
     });
   }
 
   onSubmit() {
     if (this.form.valid) {
+      this.form.controls['anuncianteID'].setValue(this.user_uid);
+      console.log('Anuncio:');
+      console.log(this.form.value);
       this.provider.save(this.form.value)
         .then(() => {
           this.toast.create({ message: 'Contato salvo com sucesso.', duration: 3000 }).present();
