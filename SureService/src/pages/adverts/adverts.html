@@ -8,17 +8,18 @@
 </ion-header>
 
 <ion-content>
-  <ion-list  style="padding: 15px;">
-    <ion-item-sliding *ngFor="let contact of contacts | async">
-      <ion-item (click)="editContact(contact)">
+
+  <ion-list style="padding: 15px;" inset>
+    <button ion-item *ngFor="let contact of contacts | async" (click)="editContact(contact)">
+        <ion-icon name='contact' style="zoom: 2.0;" item-start></ion-icon>
         <h1>{{ contact.name }}</h1>
         <p>{{ contact.descricao }}</p>
         <p>Telefone: {{ contact.tel }}</p>
         <p>Categoria: {{ contact.categoria }}</p>
-      </ion-item>
-    </ion-item-sliding>
-  </ion-list> 
-  </ion-content>
+    </button>  
+  </ion-list>
+
+</ion-content>
 
   <page-tabs></page-tabs>
   

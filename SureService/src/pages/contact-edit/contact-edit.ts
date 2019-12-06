@@ -1,6 +1,6 @@
 import { ContactProvider } from './../../providers/contact/contact';
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, ToastController } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, ToastController, AlertController } from 'ionic-angular';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AngularFireAuth } from 'angularfire2/auth';
 
@@ -23,11 +23,11 @@ export class ContactEditPage {
     private formBuilder: FormBuilder, 
     private provider: ContactProvider,
     private toast: ToastController,
-    public firebaseauth: AngularFireAuth) {
+    public firebaseauth: AngularFireAuth,
+    private alertCtrl: AlertController) {
       firebaseauth.user.subscribe((data => {
         this.user = data;
         this.user_uid = data.uid;
-        console.log(this.user);
       })); 
       this.contact = this.navParams.data.contact || { };
       this.createForm();
@@ -79,5 +79,28 @@ export class ContactEditPage {
         });
     }
     this.navCtrl.pop();
+  }
+
+  deleteConfirm(key: string) {
+    let alert = this.alertCtrl.create({
+      title: 'Tem certeza?',
+      message: 'Seu anuncio será excluido.',
+      buttons: [
+        {
+          text: 'Cancelar',
+          role: 'cancel',
+          handler: () => {
+            console.log('Operação Cancelada');
+          }
+        },
+        {
+          text: 'Deletar',
+          handler: () => {
+            this.removeContact(key);
+          }
+        }
+      ]
+    });
+    alert.present();
   }
 }

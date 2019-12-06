@@ -25,11 +25,15 @@ export class ContactProvider {
   }
 
   getAllKeyUser(anuncianteID) {
+    try{
     return this.db.list(this.PATH, ref => ref.orderByChild('anuncianteID').equalTo(anuncianteID))
     .snapshotChanges()
     .map(changes => {
       return changes.map(c => ({ key: c.payload.key, ...c.payload.val() }));
     })
+    }catch{
+      return this.db.list(this.PATH).valueChanges(); 
+    }
   }
 
   get(key: string) {

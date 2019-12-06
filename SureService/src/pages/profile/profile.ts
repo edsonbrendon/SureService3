@@ -72,7 +72,6 @@ export class ProfilePage {
         {
           text: 'Deletar',
           handler: () => {
-            console.log('Operação Cancelada');
             this.deletarConta();
           }
         }
