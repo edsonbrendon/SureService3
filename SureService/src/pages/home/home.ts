@@ -17,7 +17,6 @@ declare var google;
 export class HomePage {
 
   public PATH = 'anuncios/';
-
   public data = null;
   public anuncios = [];
   public latitude = null;
@@ -35,8 +34,8 @@ export class HomePage {
     private geolocation: Geolocation,
     public menuCtrl: MenuController) {
       this.menuCtrl.enable(true, 'MyMenu');
-      this.data = null;
-      this.data = this.provider.getAll();
+      this.data = this.provider.getAllKey();
+      console.log(this.data);
   }
 
   ionViewDidEnter() {
@@ -45,10 +44,12 @@ export class HomePage {
 
   initMap() {
     this.geolocation.getCurrentPosition().then((position) => {
+      
       console.log("Latitude: " + position.coords.latitude);
       console.log("Longitude: " + position.coords.longitude);
       this.latitude = position.coords.latitude;
       this.longitude = position.coords.longitude;
+      
       var options = {
         center: { lat: this.latitude, lng: this.longitude },
         zoom: 15,
@@ -58,61 +59,36 @@ export class HomePage {
         styles:[
           {
               "featureType": "all",
-              "stylers": [
-                  {
-                      "saturation": 0
-                  },
-                  {
-                      "hue": "#e7ecf0"
-                  }
-              ]
+              "stylers": [{"saturation": 0},{"hue": "#e7ecf0"}]
           },
           {
               "featureType": "road",
-              "stylers": [
-                  {
-                      "saturation": -70
-                  }
-              ]
+              "stylers": [{"saturation": -70 }]
           },
           {
               "featureType": "transit",
-              "stylers": [
-                  {
-                      "visibility": "off"
-                  }
-              ]
+              "stylers": [{"visibility": "off"}]
           },
           {
               "featureType": "poi",
-              "stylers": [
-                  {
-                      "visibility": "off"
-                  }
-              ]
+              "stylers": [{"visibility": "off"}]
           },
           {
               "featureType": "water",
-              "stylers": [
-                  {
-                      "visibility": "simplified"
-                  },
-                  {
-                      "saturation": -60
-                  }
-              ]
+              "stylers": [{"visibility": "simplified"},{"saturation": -60}]
           }
-      ]
+        ]
       }
+
       console.log("Criando mapa...");
       this.map = new google.maps.Map(this.mapElement.nativeElement, options);
-
       this.MyMarker(this.map, position.coords.latitude, position.coords.longitude); 
-
+      
       console.log("Carregando anuncios...");
       this.data.subscribe(anuncios => {
         for (let anuncio of anuncios) {
           this.anuncios.push({
+            key: anuncio.key,
             name: anuncio.name,
             tel: anuncio.tel,
             latitude: anuncio.latitude,
@@ -132,23 +108,14 @@ export class HomePage {
 
   addMarker(map, latitude, longitude, titulo, marcador, categoria, anuncio) {
     var position = new google.maps.LatLng(latitude, longitude);
-    var marker = new google.maps.Marker({
-      position,
-      title: titulo,
-      map,
-      icon: 'assets/imgs/' + marcador
-    })
+    var marker = new google.maps.Marker({position,title: titulo,map,icon: 'assets/imgs/' + marcador})
     this.addInfoWindowToMarker(marker, categoria, anuncio);
     return marker;
   }
 
   MyMarker(map, latitude, longitude) {
     var position = new google.maps.LatLng(latitude, longitude);
-    var marker = new google.maps.Marker({
-      position,
-      animation: google.maps.Animation.DROP,
-      map,
-    })
+    var marker = new google.maps.Marker({position,animation: google.maps.Animation.DROP,map,})
     return marker;
   }
 

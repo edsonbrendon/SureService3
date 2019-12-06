@@ -11,7 +11,7 @@ import { AngularFireAuth } from 'angularfire2/auth';
 })
 export class ContactEditPage {
   
-  title: string;
+  title: string = '';
   form: FormGroup;
   contact: any;
   public user: any;
@@ -58,13 +58,26 @@ export class ContactEditPage {
       console.log(this.form.value);
       this.provider.save(this.form.value)
         .then(() => {
-          this.toast.create({ message: 'Contato salvo com sucesso.', duration: 3000 }).present();
+          this.toast.create({ message: 'Anuncio salvo com sucesso.', duration: 3000, position: 'top' }).present();
           this.navCtrl.pop();
         })
         .catch((e) => {
-          this.toast.create({ message: 'Erro ao salvar o contato.', duration: 3000 }).present();
+          this.toast.create({ message: 'Erro ao salvar o Anuncio.', duration: 3000, position: 'top' }).present();
           console.error(e);
         })
     }
+  }
+
+  removeContact(key: string) {
+    if (key) {
+      this.provider.remove(key)
+        .then(() => {
+          this.toast.create({ message: 'Anuncio removido sucesso.', duration: 3000, position: 'top' }).present();
+        })
+        .catch(() => {
+          this.toast.create({ message: 'Erro ao remover o Anuncio.', duration: 3000, position: 'top' }).present();
+        });
+    }
+    this.navCtrl.pop();
   }
 }

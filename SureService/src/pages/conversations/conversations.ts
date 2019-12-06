@@ -15,10 +15,11 @@ export class ConversationsPage {
   constructor(public navCtrl: NavController, public navParams: NavParams) {
     this.ref.on('value', resp => {
       this.rooms = [];
-      this.rooms = snapshotToArray(resp);
+      //this.rooms = snapshotToArray(resp);
     });
   }
-
+}
+/*
   addRoom() {
     this.navCtrl.push(AddRoomPage);
   }
@@ -45,5 +46,5 @@ export const snapshotToArray = snapshot => {
   });
 
   return returnArr;
-};
+};*/
 

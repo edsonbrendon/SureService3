@@ -6,6 +6,7 @@
 
 <ion-content padding>
   <div style="padding: 25px;">
+
     <form [formGroup]="form">
       <ion-item>
         <ion-label floating>Nome</ion-label>
@@ -45,10 +46,18 @@
             <ion-option value="Outros">Outros</ion-option>
           </ion-select>
       </ion-item>
-  
-      <div padding>
-        <button ion-button style="height: 50px" block type="submit" [disabled]="!form.valid" (click)="onSubmit()">Salvar</button>
+      <br>
+      <div>
+        <button ion-button style="height: 50px" block type="submit" [disabled]="!form.valid" (click)="onSubmit()">SALVAR</button>
       </div>
+      <br>
+      <div *ngIf="title == 'Alterar Anuncio'" >
+        <button block outline expand="block" (click)="removeContact(contact.key)" style="color: #222; border-color: #222;" ion-button>
+          <ion-icon name="trash" style="zoom: 1.5;"></ion-icon> 
+          <p padding>Excluir Anuncio</p>
+        </button>
+      </div>
+
     </form>
   </div>
 </ion-content>

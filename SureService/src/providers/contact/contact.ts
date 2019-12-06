@@ -1,41 +1,31 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { AngularFireDatabase } from 'angularfire2/database';
-import { Observable } from 'rxjs';
-//import { map } from 'rxjs/operators';
-
+import 'rxjs/add/operator/map';
+ 
 @Injectable()
 export class ContactProvider {
 
   public PATH = 'anuncios/';
   public anuncios;
-
-
-  ParkingSpotList$: Observable<any[]>; // write this as global variable before constructor 
-
-  itemsRef;
-  profileData;
-x;
+  public itemsRef;
+  public profileData;
 
   constructor(public http: HttpClient, public db: AngularFireDatabase) {
     console.log('Hello ContactProvider Provider');
+    this.itemsRef = this.db.list(this.PATH);
   }
 
   getAll() {
-    //return this.db.list(this.PATH).valueChanges(); 
-    this.itemsRef = this.db.list(this.PATH);
-    this.itemsRef.snapshotChanges().subscribe(data => { 
-      this.profileData = data;  
-      this.anuncios = this.profileData.map(c => ({
-        key: c.payload.key, ...c.payload.val()
-        }))
-      });
-    console.log(this.anuncios);
-    return this.anuncios;
+    return this.db.list(this.PATH).valueChanges(); 
   }
 
   getAllKey() {
-    return this.db.list(this.PATH).snapshotChanges(); 
+    return this.db.list(this.PATH, ref => ref.orderByChild('name'))
+    .snapshotChanges()
+    .map(changes => {
+      return changes.map(c => ({ key: c.payload.key, ...c.payload.val() }));
+    })
   }
 
   get(key: string) {

@@ -1,9 +1,10 @@
-import { Component, ComponentFactoryResolver } from '@angular/core';
+import { Component } from '@angular/core';
 import { IonicPage, NavParams } from 'ionic-angular';
 import { ContactProvider } from './../../providers/contact/contact';
 import { NavController, ToastController } from 'ionic-angular';
 import { ContactEditPage } from '../contact-edit/contact-edit';
 import { AngularFireAuth } from 'angularfire2/auth';
+import { Observable } from 'rxjs';
 
 @IonicPage()
 @Component({
@@ -12,9 +13,9 @@ import { AngularFireAuth } from 'angularfire2/auth';
 })
 export class AdvertsPage {
  
-  //contacts: Observable<any>;
+  contacts: Observable<any>;
 
-  contacts;
+  //contacts;
   user_uid: string
 
   constructor(
@@ -26,8 +27,7 @@ export class AdvertsPage {
       firebaseauth.user.subscribe((data => {
         this.user_uid = data.uid;
       })); 
-       //this.contacts = this.provider.getAll();
-       this.contacts = this.provider.getAll();
+       this.contacts = this.provider.getAllKey();
        console.log(this.contacts);
   }
 
