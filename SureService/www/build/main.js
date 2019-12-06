@@ -27,17 +27,16 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 
 
 var AdvertsPage = /** @class */ (function () {
-    function AdvertsPage(navCtrl, navParams, provider, toast, firebaseauth) {
+    function AdvertsPage(navCtrl, navParams, provider, firebaseauth) {
         var _this = this;
         this.navCtrl = navCtrl;
         this.navParams = navParams;
         this.provider = provider;
-        this.toast = toast;
         this.firebaseauth = firebaseauth;
         firebaseauth.user.subscribe((function (data) {
             _this.user_uid = data.uid;
         }));
-        this.contacts = this.provider.getAllKey();
+        this.contacts = this.provider.getAllKeyUser(this.user_uid);
         console.log(this.contacts);
     }
     AdvertsPage.prototype.ionViewDidLoad = function () {
@@ -46,29 +45,14 @@ var AdvertsPage = /** @class */ (function () {
     AdvertsPage.prototype.editContact = function (contact) {
         this.navCtrl.push(__WEBPACK_IMPORTED_MODULE_3__contact_edit_contact_edit__["a" /* ContactEditPage */], { contact: contact });
     };
-    AdvertsPage.prototype.removeContact = function (key) {
-        var _this = this;
-        if (key) {
-            this.provider.remove(key)
-                .then(function () {
-                _this.toast.create({ message: 'Contato removido sucesso.', duration: 3000 }).present();
-            })
-                .catch(function () {
-                _this.toast.create({ message: 'Erro ao remover o contato.', duration: 3000 }).present();
-            });
-        }
-    };
     AdvertsPage = __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["m" /* Component */])({
             selector: 'page-adverts',template:/*ion-inline-start:"C:\Users\edson\Documents\GitHub\SureService3\SureService\src\pages\adverts\adverts.html"*/'<ion-header>\n\n  <ion-navbar>\n\n      <button ion-button menuToggle>\n\n        <ion-icon name="menu" style="zoom: 1.4;color: #222;"></ion-icon>\n\n      </button>\n\n    <ion-title>Meus Anuncios</ion-title>\n\n  </ion-navbar>\n\n</ion-header>\n\n\n\n<ion-content>\n\n  <ion-list  style="padding: 15px;">\n\n    <ion-item-sliding *ngFor="let contact of contacts | async">\n\n      <ion-item (click)="editContact(contact)">\n\n        <h1>{{ contact.name }}</h1>\n\n        <p>{{ contact.descricao }}</p>\n\n        <p>Telefone: {{ contact.tel }}</p>\n\n        <p>Categoria: {{ contact.categoria }}</p>\n\n      </ion-item>\n\n    </ion-item-sliding>\n\n  </ion-list> \n\n  </ion-content>\n\n\n\n  <page-tabs></page-tabs>\n\n  \n\n'/*ion-inline-end:"C:\Users\edson\Documents\GitHub\SureService3\SureService\src\pages\adverts\adverts.html"*/,
         }),
-        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1_ionic_angular__["i" /* NavController */],
-            __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["j" /* NavParams */],
-            __WEBPACK_IMPORTED_MODULE_2__providers_contact_contact__["a" /* ContactProvider */],
-            __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["l" /* ToastController */],
-            __WEBPACK_IMPORTED_MODULE_4_angularfire2_auth__["AngularFireAuth"]])
+        __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["i" /* NavController */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["i" /* NavController */]) === "function" && _a || Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["j" /* NavParams */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["j" /* NavParams */]) === "function" && _b || Object, typeof (_c = typeof __WEBPACK_IMPORTED_MODULE_2__providers_contact_contact__["a" /* ContactProvider */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_2__providers_contact_contact__["a" /* ContactProvider */]) === "function" && _c || Object, typeof (_d = typeof __WEBPACK_IMPORTED_MODULE_4_angularfire2_auth__["AngularFireAuth"] !== "undefined" && __WEBPACK_IMPORTED_MODULE_4_angularfire2_auth__["AngularFireAuth"]) === "function" && _d || Object])
     ], AdvertsPage);
     return AdvertsPage;
+    var _a, _b, _c, _d;
 }());
 
 //# sourceMappingURL=adverts.js.map
@@ -1205,13 +1189,19 @@ var ContactProvider = /** @class */ (function () {
         this.db = db;
         this.PATH = 'anuncios/';
         console.log('Hello ContactProvider Provider');
-        this.itemsRef = this.db.list(this.PATH);
     }
     ContactProvider.prototype.getAll = function () {
         return this.db.list(this.PATH).valueChanges();
     };
     ContactProvider.prototype.getAllKey = function () {
         return this.db.list(this.PATH, function (ref) { return ref.orderByChild('name'); })
+            .snapshotChanges()
+            .map(function (changes) {
+            return changes.map(function (c) { return (__assign({ key: c.payload.key }, c.payload.val())); });
+        });
+    };
+    ContactProvider.prototype.getAllKeyUser = function (anuncianteID) {
+        return this.db.list(this.PATH, function (ref) { return ref.orderByChild('anuncianteID').equalTo(anuncianteID); })
             .snapshotChanges()
             .map(function (changes) {
             return changes.map(function (c) { return (__assign({ key: c.payload.key }, c.payload.val())); });
@@ -1257,9 +1247,10 @@ var ContactProvider = /** @class */ (function () {
     };
     ContactProvider = __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_1__angular_core__["A" /* Injectable */])(),
-        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_0__angular_common_http__["a" /* HttpClient */], __WEBPACK_IMPORTED_MODULE_2_angularfire2_database__["AngularFireDatabase"]])
+        __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_0__angular_common_http__["a" /* HttpClient */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_0__angular_common_http__["a" /* HttpClient */]) === "function" && _a || Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_2_angularfire2_database__["AngularFireDatabase"] !== "undefined" && __WEBPACK_IMPORTED_MODULE_2_angularfire2_database__["AngularFireDatabase"]) === "function" && _b || Object])
     ], ContactProvider);
     return ContactProvider;
+    var _a, _b;
 }());
 
 //# sourceMappingURL=contact.js.map
@@ -1300,7 +1291,6 @@ var ContactEditPage = /** @class */ (function () {
         this.provider = provider;
         this.toast = toast;
         this.firebaseauth = firebaseauth;
-        this.title = '';
         firebaseauth.user.subscribe((function (data) {
             _this.user = data;
             _this.user_uid = data.uid;
@@ -1333,36 +1323,27 @@ var ContactEditPage = /** @class */ (function () {
             console.log(this.form.value);
             this.provider.save(this.form.value)
                 .then(function () {
-                _this.toast.create({ message: 'Anuncio salvo com sucesso.', duration: 3000, position: 'top' }).present();
+                _this.toast.create({ message: 'Contato salvo com sucesso.', duration: 3000 }).present();
                 _this.navCtrl.pop();
             })
                 .catch(function (e) {
-                _this.toast.create({ message: 'Erro ao salvar o Anuncio.', duration: 3000, position: 'top' }).present();
+                _this.toast.create({ message: 'Erro ao salvar o contato.', duration: 3000 }).present();
                 console.error(e);
             });
         }
-    };
-    ContactEditPage.prototype.removeContact = function (key) {
-        var _this = this;
-        if (key) {
-            this.provider.remove(key)
-                .then(function () {
-                _this.toast.create({ message: 'Anuncio removido sucesso.', duration: 3000, position: 'top' }).present();
-            })
-                .catch(function () {
-                _this.toast.create({ message: 'Erro ao remover o Anuncio.', duration: 3000, position: 'top' }).present();
-            });
-        }
-        this.navCtrl.pop();
     };
     ContactEditPage = __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_1__angular_core__["m" /* Component */])({
             selector: 'page-contact-edit',template:/*ion-inline-start:"C:\Users\edson\Documents\GitHub\SureService3\SureService\src\pages\contact-edit\contact-edit.html"*/'<ion-header>\n\n    <ion-navbar>\n\n        <ion-title>{{title}}</ion-title>\n\n    </ion-navbar>\n\n  </ion-header>\n\n\n\n<ion-content padding>\n\n  <div style="padding: 25px;">\n\n\n\n    <form [formGroup]="form">\n\n      <ion-item>\n\n        <ion-label floating>Nome</ion-label>\n\n        <ion-input type="text" formControlName="name"></ion-input>\n\n      </ion-item>\n\n\n\n      <ion-item>\n\n          <ion-label floating>Descrição</ion-label>\n\n          <ion-input type="text" formControlName="descricao"></ion-input>\n\n      </ion-item>\n\n  \n\n      <ion-item>\n\n        <ion-label floating>Telefone</ion-label>\n\n        <ion-input type="tel" formControlName="tel"></ion-input>\n\n      </ion-item>\n\n\n\n      <ion-item>\n\n          <ion-label floating>Latitute</ion-label>\n\n          <ion-input type="text" formControlName="latitude"></ion-input>\n\n      </ion-item>\n\n\n\n      <ion-item>\n\n          <ion-label floating>Longitude</ion-label>\n\n          <ion-input type="text" formControlName="longitude"></ion-input>\n\n      </ion-item>\n\n\n\n      <ion-item>\n\n          <ion-label floating>Categoria</ion-label>\n\n          <ion-select formControlName="categoria">\n\n            <ion-option value="Limpeza">Limpeza</ion-option>\n\n            <ion-option value="Manutenção">Manutenção</ion-option>\n\n            <ion-option value="Pintura">Pintura</ion-option>\n\n            <ion-option value="Educação">Educação</ion-option>\n\n            <ion-option value="Transporte">Transporte</ion-option>\n\n            <ion-option value="Babá">Babá</ion-option>\n\n            <ion-option value="Jardinagem">Jardinagem</ion-option>\n\n            <ion-option value="Outros">Outros</ion-option>\n\n          </ion-select>\n\n      </ion-item>\n\n      <br>\n\n      <div>\n\n        <button ion-button style="height: 50px" block type="submit" [disabled]="!form.valid" (click)="onSubmit()">SALVAR</button>\n\n      </div>\n\n      <br>\n\n      <div *ngIf="title == \'Alterar Anuncio\'" >\n\n        <button block outline expand="block" (click)="removeContact(contact.key)" style="color: #222; border-color: #222;" ion-button>\n\n          <ion-icon name="trash" style="zoom: 1.5;"></ion-icon> \n\n          <p padding>Excluir Anuncio</p>\n\n        </button>\n\n      </div>\n\n\n\n    </form>\n\n  </div>\n\n</ion-content>'/*ion-inline-end:"C:\Users\edson\Documents\GitHub\SureService3\SureService\src\pages\contact-edit\contact-edit.html"*/,
         }),
-        __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_2_ionic_angular__["i" /* NavController */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_2_ionic_angular__["i" /* NavController */]) === "function" && _a || Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_2_ionic_angular__["j" /* NavParams */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_2_ionic_angular__["j" /* NavParams */]) === "function" && _b || Object, typeof (_c = typeof __WEBPACK_IMPORTED_MODULE_3__angular_forms__["a" /* FormBuilder */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_3__angular_forms__["a" /* FormBuilder */]) === "function" && _c || Object, typeof (_d = typeof __WEBPACK_IMPORTED_MODULE_0__providers_contact_contact__["a" /* ContactProvider */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_0__providers_contact_contact__["a" /* ContactProvider */]) === "function" && _d || Object, typeof (_e = typeof __WEBPACK_IMPORTED_MODULE_2_ionic_angular__["l" /* ToastController */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_2_ionic_angular__["l" /* ToastController */]) === "function" && _e || Object, typeof (_f = typeof __WEBPACK_IMPORTED_MODULE_4_angularfire2_auth__["AngularFireAuth"] !== "undefined" && __WEBPACK_IMPORTED_MODULE_4_angularfire2_auth__["AngularFireAuth"]) === "function" && _f || Object])
+        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_2_ionic_angular__["i" /* NavController */],
+            __WEBPACK_IMPORTED_MODULE_2_ionic_angular__["j" /* NavParams */],
+            __WEBPACK_IMPORTED_MODULE_3__angular_forms__["a" /* FormBuilder */],
+            __WEBPACK_IMPORTED_MODULE_0__providers_contact_contact__["a" /* ContactProvider */],
+            __WEBPACK_IMPORTED_MODULE_2_ionic_angular__["l" /* ToastController */],
+            __WEBPACK_IMPORTED_MODULE_4_angularfire2_auth__["AngularFireAuth"]])
     ], ContactEditPage);
     return ContactEditPage;
-    var _a, _b, _c, _d, _e, _f;
 }());
 
 //# sourceMappingURL=contact-edit.js.map

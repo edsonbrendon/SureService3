@@ -6,14 +6,10 @@ import 'rxjs/add/operator/map';
 @Injectable()
 export class ContactProvider {
 
-  public PATH = 'anuncios/';
-  public anuncios;
-  public itemsRef;
-  public profileData;
+  public PATH = 'anuncios/'
 
   constructor(public http: HttpClient, public db: AngularFireDatabase) {
     console.log('Hello ContactProvider Provider');
-    this.itemsRef = this.db.list(this.PATH);
   }
 
   getAll() {
@@ -22,6 +18,14 @@ export class ContactProvider {
 
   getAllKey() {
     return this.db.list(this.PATH, ref => ref.orderByChild('name'))
+    .snapshotChanges()
+    .map(changes => {
+      return changes.map(c => ({ key: c.payload.key, ...c.payload.val() }));
+    })
+  }
+
+  getAllKeyUser(anuncianteID) {
+    return this.db.list(this.PATH, ref => ref.orderByChild('anuncianteID').equalTo(anuncianteID))
     .snapshotChanges()
     .map(changes => {
       return changes.map(c => ({ key: c.payload.key, ...c.payload.val() }));
