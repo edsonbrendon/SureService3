@@ -12,8 +12,7 @@ import { AngularFireAuth } from 'angularfire2/auth';
 })
 export class AdvertsPage {
  
-  contacts;
-  user_uid: string
+  public contacts;
 
   constructor(
     public navCtrl: NavController, 
@@ -21,10 +20,8 @@ export class AdvertsPage {
     private provider: ContactProvider,
     public firebaseauth: AngularFireAuth) {
       firebaseauth.user.subscribe((data => {
-        this.user_uid = data.uid;
+        this.contacts = this.provider.getAllKeyUser(data.uid);
       })); 
-      this.contacts = this.provider.getAllKeyUser(this.user_uid);
-      console.log(this.contacts);
   }
 
   ionViewDidLoad() {
