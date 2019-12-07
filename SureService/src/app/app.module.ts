@@ -18,14 +18,14 @@ import { SignupPage } from '../pages/signup/signup';
 import { ContactProvider } from '../providers/contact/contact';
 import { AdvertsPage } from '../pages/adverts/adverts';
 import { ContactEditPage } from '../pages/contact-edit/contact-edit';
-import { AnuncioPage } from '../pages/anuncio/anuncio';
 import { TabsPage } from '../pages/tabs/tabs';
-import { ConversationsPage } from '../pages/conversations/conversations';
-import { ChatPage } from '../pages/chat/chat';
 import { PerfilPage } from '../pages/perfil/perfil';
 import { AlterPerfilPage } from '../pages/alter-perfil/alter-perfil';
 
 import { Geolocation } from '@ionic-native/geolocation';
+import { RoomPage } from '../pages/room/room';
+import { ChatPage } from '../pages/chat/chat';
+import { AddRoomPage } from '../pages/add-room/add-room';
 
 export const firebaseConfig = {
     apiKey: "AIzaSyBsx4wa6S9Hp04gd-UQN9ZXcckEuxSrilE",
@@ -48,12 +48,12 @@ export const firebaseConfig = {
     SignupPage,
     AdvertsPage,
     ContactEditPage,
-    AnuncioPage,
     TabsPage,
-    ConversationsPage,
-    ChatPage,
     PerfilPage,
-    AlterPerfilPage
+    AlterPerfilPage,
+    RoomPage,
+    ChatPage,
+    AddRoomPage
   ],
   imports: [
     BrowserModule,
@@ -72,12 +72,12 @@ export const firebaseConfig = {
     SignupPage,
     AdvertsPage,
     ContactEditPage,
-    AnuncioPage,
     TabsPage,
-    ConversationsPage,
-    ChatPage,
     PerfilPage,
-    AlterPerfilPage
+    AlterPerfilPage,
+    RoomPage,
+    ChatPage,
+    AddRoomPage
   ],
   providers: [
     StatusBar,

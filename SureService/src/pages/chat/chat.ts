@@ -1,11 +1,11 @@
 import { Component, ViewChild } from '@angular/core';
-import { IonicPage, NavController, NavParams, , Content } from 'ionic-angular';
+import { NavController, NavParams, Content } from 'ionic-angular';
+import { RoomPage } from '../room/room';
 import * as firebase from 'Firebase';
 
-@IonicPage()
 @Component({
   selector: 'page-chat',
-  templateUrl: 'chat.html',
+  templateUrl: 'chat.html'
 })
 export class ChatPage {
 
@@ -15,21 +15,23 @@ export class ChatPage {
   chats = [];
   roomkey:string;
   nickname:string;
+  roomname:string;
   offStatus:boolean = false;
 
   constructor(public navCtrl: NavController, public navParams: NavParams) {
     this.roomkey = this.navParams.get("key") as string;
     this.nickname = this.navParams.get("nickname") as string;
+    this.roomname = this.navParams.get("roomname") as string;
     this.data.type = 'message';
     this.data.nickname = this.nickname;
 
-    let joinData = firebase.database().ref('chatrooms/'+this.roomkey+'/chats').push();
+   /* let joinData = firebase.database().ref('chatrooms/'+this.roomkey+'/chats').push();
     joinData.set({
       type:'join',
       user:this.nickname,
       message:this.nickname+' has joined this room.',
       sendDate:Date()
-    });
+    });*/
     this.data.message = '';
 
     firebase.database().ref('chatrooms/'+this.roomkey+'/chats').on('value', resp => {
@@ -54,7 +56,7 @@ export class ChatPage {
     this.data.message = '';
   }
 
-  exitChat() {
+  exitChat() {/*
     let exitData = firebase.database().ref('chatrooms/'+this.roomkey+'/chats').push();
     exitData.set({
       type:'exit',
@@ -62,7 +64,7 @@ export class ChatPage {
       message:this.nickname+' has exited this room.',
       sendDate:Date()
     });
-
+*/
     this.offStatus = true;
 
     this.navCtrl.setRoot(RoomPage, {

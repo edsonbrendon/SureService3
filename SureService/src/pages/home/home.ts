@@ -5,7 +5,7 @@ import { AlertController } from 'ionic-angular';
 import { ContactProvider } from './../../providers/contact/contact';
 import { ContactEditPage } from '../contact-edit/contact-edit';
 import { Geolocation } from '@ionic-native/geolocation';
-import { AnuncioPage } from '../anuncio/anuncio';
+import * as firebase from 'Firebase';
 
 declare var google;
 
@@ -26,6 +26,8 @@ export class HomePage {
 
   map: any;
   markers: any;
+
+  ref = firebase.database().ref('chatrooms/');
 
   constructor(
     public navCtrl: NavController,
@@ -144,9 +146,9 @@ export class HomePage {
     this.navCtrl.push(ContactEditPage);
   }
 
-  getAnuncio(){
+  /*getAnuncio(){
     this.navCtrl.push(AnuncioPage);
-  }
+  }*/
 
   presentAlert(anuncio) {
     let alert = this.alertCtrl.create({
@@ -158,7 +160,10 @@ export class HomePage {
         {
           text: 'Enviar mensagem',
           handler: () => {
-            console.log('');
+              let newData = this.ref.push();
+              newData.set({
+                roomname: anuncio.name
+              });
           }
         },
         {

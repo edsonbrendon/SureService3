@@ -11,7 +11,6 @@
 
   <ion-list style="padding: 15px;" inset>
     <button ion-item *ngFor="let contact of contacts | async" (click)="editContact(contact)">
-        <ion-icon name='contact' style="zoom: 2.0;" item-start></ion-icon>
         <h1>{{ contact.name }}</h1>
         <p>{{ contact.descricao }}</p>
         <p>Telefone: {{ contact.tel }}</p>

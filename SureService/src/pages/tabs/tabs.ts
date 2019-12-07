@@ -2,8 +2,8 @@ import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { HomePage } from '../home/home';
 import { AdvertsPage } from '../adverts/adverts';
-import { ConversationsPage } from '../conversations/conversations';
 import { PerfilPage } from '../perfil/perfil';
+import { RoomPage } from '../room/room';
 
 @IonicPage()
 @Component({
@@ -21,6 +21,6 @@ export class TabsPage {
   
   NavMapa(){this.navCtrl.setRoot(HomePage,{},{animate:false});}
   NavAdverts(){this.navCtrl.setRoot(AdvertsPage,{},{animate:false});}
-  NavConversations(){this.navCtrl.setRoot(ConversationsPage,{},{animate:false});}
+  NavConversations(){this.navCtrl.setRoot(RoomPage,{},{animate:false});}
   NavPerfil(){this.navCtrl.setRoot(PerfilPage,{},{animate:false});}
 }
