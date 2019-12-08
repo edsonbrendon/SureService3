@@ -6,7 +6,10 @@ import { HomePage } from '../pages/home/home';
 import { InitialPage } from '../pages/initial/initial';
 import { ProfilePage } from '../pages/profile/profile';
 import { AngularFireAuth } from 'angularfire2/auth';
-import * as firebase from 'firebase/app';
+import { AdvertsPage } from '../pages/adverts/adverts';
+import { PerfilPage } from '../pages/perfil/perfil';
+import { RoomPage } from '../pages/room/room';
+//import * as firebase from 'firebase/app';
 
 @Component({
   templateUrl: 'app.html'
@@ -15,7 +18,7 @@ export class MyApp {
   @ViewChild(Nav) nav: Nav;
 
   rootPage: any;
-  public user: firebase.User;
+  public user;
 
   pages: Array<{title: string, component: any, icon: any}>;
 
@@ -25,13 +28,17 @@ export class MyApp {
     public splashScreen: SplashScreen,
     public afAuth: AngularFireAuth,
     public firebaseauth: AngularFireAuth) {
-      afAuth.authState.subscribe(user => {
-        this.user = user;
-      });
+      //afAuth.authState.subscribe(user => {
+        //this.user = user;
+     // });
+
       this.initializeApp();
 
       this.pages = [
         { title: 'Home', component: HomePage, icon: 'home' },
+        { title: 'Meus Anuncios', component: AdvertsPage, icon: 'list-box' },
+        { title: 'Perfil', component: PerfilPage, icon: 'contact' },
+        { title: 'Conversas', component: RoomPage, icon: 'chatbubbles' },
         { title: 'Configurações da Conta', component: ProfilePage, icon: 'construct'  },
         { title: 'Sair', component: InitialPage, icon: 'exit' }
       ];

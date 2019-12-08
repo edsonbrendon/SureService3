@@ -13,9 +13,18 @@ cordova.define('cordova/plugin_list', function(require, exports, module) {
       "file": "plugins/cordova-plugin-geolocation/www/PositionError.js",
       "pluginId": "cordova-plugin-geolocation",
       "runs": true
+    },
+    {
+      "id": "cordova-plugin-headercolor.HeaderColor",
+      "file": "plugins/cordova-plugin-headercolor/www/HeaderColor.js",
+      "pluginId": "cordova-plugin-headercolor",
+      "clobbers": [
+        "cordova.plugins.headerColor"
+      ]
     }
   ];
   module.exports.metadata = {
-    "cordova-plugin-geolocation": "4.0.2"
+    "cordova-plugin-geolocation": "4.0.2",
+    "cordova-plugin-headercolor": "1.0"
   };
 });

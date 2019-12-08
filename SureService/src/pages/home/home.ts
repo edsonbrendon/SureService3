@@ -4,8 +4,9 @@ import { IonicPage } from 'ionic-angular';
 import { AlertController } from 'ionic-angular';
 import { ContactProvider } from './../../providers/contact/contact';
 import { ContactEditPage } from '../contact-edit/contact-edit';
-import { Geolocation } from '@ionic-native/geolocation';
+//import { Geolocation } from '@ionic-native/geolocation';
 import * as firebase from 'Firebase';
+//import { AnunciantePage } from '../anunciante/anunciante';
 
 declare var google;
 
@@ -19,8 +20,8 @@ export class HomePage {
   public PATH = 'anuncios/';
   public data = null;
   public anuncios = [];
-  public latitude = null;
-  public longitude = null;
+  public latitude = -23.162035;
+  public longitude = -45.795401;
 
   @ViewChild('map') mapElement: ElementRef;
 
@@ -33,18 +34,19 @@ export class HomePage {
     public navCtrl: NavController,
     public alertCtrl: AlertController,
     public provider: ContactProvider,
-    private geolocation: Geolocation,
+    //private geolocation: Geolocation,
     public menuCtrl: MenuController) {
       this.menuCtrl.enable(true, 'MyMenu');
       this.data = this.provider.getAllKey();
       console.log(this.data);
-  }
+      //this.mylocation();
+    }
 
   ionViewDidEnter() {
     this.initMap();
   }
 
-  initMap() {
+  /*mylocation(){
     this.geolocation.getCurrentPosition().then((position) => {
       
       console.log("Latitude: " + position.coords.latitude);
@@ -52,8 +54,8 @@ export class HomePage {
       this.latitude = position.coords.latitude;
       this.longitude = position.coords.longitude;
       
-      var options = {
-        center: { lat: this.latitude, lng: this.longitude },
+      this.options = {
+        center: { lat: "-23.175448", lng: "-45.843689" },
         zoom: 15,
         streetViewControl: false,
         disableDefaultUI: true,
@@ -81,10 +83,45 @@ export class HomePage {
           }
         ]
       }
+    }).catch((error) => {
+      console.log('Error getting location', error);
+    });
+  }*/
 
+  initMap() {
+    
+    var options = {
+      center: { lat: this.latitude, lng: this.longitude },
+      zoom: 16,
+      streetViewControl: false,
+      disableDefaultUI: true,
+      animation: google.maps.Animation.DROP,
+      styles:[
+        {
+            "featureType": "all",
+            "stylers": [{"saturation": 0},{"hue": "#e7ecf0"}]
+        },
+        {
+            "featureType": "road",
+            "stylers": [{"saturation": -70 }]
+        },
+        {
+            "featureType": "transit",
+            "stylers": [{"visibility": "off"}]
+        },
+        {
+            "featureType": "poi",
+            "stylers": [{"visibility": "off"}]
+        },
+        {
+            "featureType": "water",
+            "stylers": [{"visibility": "simplified"},{"saturation": -60}]
+        }
+      ]
+    }
       console.log("Criando mapa...");
       this.map = new google.maps.Map(this.mapElement.nativeElement, options);
-      this.MyMarker(this.map, position.coords.latitude, position.coords.longitude); 
+      this.MyMarker(this.map, this.latitude, this.longitude); 
       
       console.log("Carregando anuncios...");
       this.data.subscribe(anuncios => {
@@ -103,9 +140,6 @@ export class HomePage {
         console.log("Anuncios inseridos: " + this.anuncios.length);
         console.log(this.anuncios);
       });
-    }).catch((error) => {
-      console.log('Error getting location', error);
-    });
   }
 
   addMarker(map, latitude, longitude, titulo, marcador, categoria, anuncio) {
@@ -154,8 +188,8 @@ export class HomePage {
     let alert = this.alertCtrl.create({
       title: anuncio.name,
       subTitle: anuncio.categoria,
-      message: 'Descrição: '+anuncio.descricao+
-        '<br>Telefone: '+anuncio.tel,
+      message: anuncio.descricao+
+        '<br><br>Telefone: '+anuncio.tel,
       buttons: [
         {
           text: 'Enviar mensagem',
@@ -166,14 +200,14 @@ export class HomePage {
               });
           }
         },
-        {
+       /* {
           text: 'Perfil do Anunciante',
           handler: () => {
-            console.log('');
+            this.navCtrl.push(AnunciantePage);
           }
-        },
+        },*/
         {
-          text: 'Voltar',
+          text: 'VOLTAR',
           role: 'cancel',
           handler: () => {
             console.log('Cancel clicked');

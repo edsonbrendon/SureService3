@@ -26,6 +26,7 @@ import { Geolocation } from '@ionic-native/geolocation';
 import { RoomPage } from '../pages/room/room';
 import { ChatPage } from '../pages/chat/chat';
 import { AddRoomPage } from '../pages/add-room/add-room';
+import { AnunciantePage } from '../pages/anunciante/anunciante';
 
 export const firebaseConfig = {
     apiKey: "AIzaSyBsx4wa6S9Hp04gd-UQN9ZXcckEuxSrilE",
@@ -53,7 +54,8 @@ export const firebaseConfig = {
     AlterPerfilPage,
     RoomPage,
     ChatPage,
-    AddRoomPage
+    AddRoomPage,
+    AnunciantePage
   ],
   imports: [
     BrowserModule,
@@ -77,7 +79,8 @@ export const firebaseConfig = {
     AlterPerfilPage,
     RoomPage,
     ChatPage,
-    AddRoomPage
+    AddRoomPage,
+    AnunciantePage
   ],
   providers: [
     StatusBar,
@@ -85,7 +88,7 @@ export const firebaseConfig = {
     Geolocation,
     {provide: ErrorHandler, useClass: IonicErrorHandler},
     ContactProvider,
-    AngularFireDatabase
+    AngularFireDatabase,
   ]
 })
 export class AppModule {}

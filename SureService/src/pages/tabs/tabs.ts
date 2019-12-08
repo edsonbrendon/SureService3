@@ -19,8 +19,19 @@ export class TabsPage {
     console.log('ionViewDidLoad TabsPage');
   }
   
-  NavMapa(){this.navCtrl.setRoot(HomePage,{},{animate:false});}
-  NavAdverts(){this.navCtrl.setRoot(AdvertsPage,{},{animate:false});}
-  NavConversations(){this.navCtrl.setRoot(RoomPage,{},{animate:false});}
-  NavPerfil(){this.navCtrl.setRoot(PerfilPage,{},{animate:false});}
+  NavMapa(){    
+    this.navCtrl.setRoot(HomePage,{},{animate:false});
+  }
+
+  NavAdverts(){
+    this.navCtrl.setRoot(AdvertsPage,{},{animate:false});
+  }
+
+  NavConversations(){
+    this.navCtrl.setRoot(RoomPage,{},{animate:false});
+  }
+
+  NavPerfil(){
+    this.navCtrl.setRoot(PerfilPage,{},{animate:false});
+  }
 }

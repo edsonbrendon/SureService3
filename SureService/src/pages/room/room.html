@@ -1,31 +1,28 @@
-<!--
-  Generated template for the RoomPage page.
-
-  See http://ionicframework.com/docs/components/#navigation for more info on
-  Ionic pages and navigation.
--->
 <ion-header>
 
     <ion-navbar>
+      <button ion-button menuToggle>
+        <ion-icon name="menu" style="zoom: 1.4;color: white;"></ion-icon>
+      </button>
       <ion-title>Conversas</ion-title>
-      <ion-buttons end>
+     <!-- <ion-buttons end>
         <button ion-button icon-only (click)="addRoom()">
           <ion-icon name="add-circle"></ion-icon>
         </button>
-      </ion-buttons>
+      </ion-buttons>-->
     </ion-navbar>
   
   </ion-header>
   
   <ion-content>
 
-    <ion-list>
+    <ion-list padding>
         <button ion-item *ngFor="let room of rooms" (click)="joinRoom(room.key, room.roomname)" style="padding: 8px;">
-            {{room.roomname}}
+            <ion-icon style="zoom: 1.4;" name="chatboxes"></ion-icon>
+            <p>{{room.roomname}}</p>
         </button>  
       </ion-list>
 
   </ion-content>
 
-  <page-tabs></page-tabs>
   

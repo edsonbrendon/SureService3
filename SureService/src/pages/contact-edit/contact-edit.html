@@ -6,7 +6,6 @@
 
 <ion-content padding>
   <div>
-
     <form [formGroup]="form">
       <ion-item>
         <ion-label floating>Nome</ion-label>
@@ -49,27 +48,19 @@
 
       <br>
 
-      <ion-grid>
-        <ion-row text-center>
-          
-          <ion-col>
-            <div *ngIf="title == 'Alterar Anuncio'" >
-              <button (click)="deleteConfirm(contact.key)" color="dark" ion-button>
-                <ion-icon name="close" style="zoom: 1.5;"></ion-icon> 
-                <p padding>REMOVER</p>
-              </button>
-            </div>
-          </ion-col>
+      <div *ngIf="title == 'Alterar Anuncio'" >
+        <button (click)="deleteConfirm(contact.key)" style="height: 50px;" block outline ion-button>
+          <ion-icon name="close" style="zoom: 1.5;"></ion-icon> 
+          <p padding>REMOVER</p>
+        </button>
+      </div>
 
-          <ion-col>
-            <button type="submit" [disabled]="!form.valid" (click)="onSubmit()" ion-button>
-              <ion-icon name="checkmark" style="zoom: 1.5;"></ion-icon> 
-              <p padding>SALVAR</p>
-            </button>
-          </ion-col>
+      <br>
 
-        </ion-row>
-      </ion-grid>
+      <button type="submit" [disabled]="!form.valid" (click)="onSubmit()" style="height: 50px;" block ion-button>
+        <ion-icon name="checkmark" style="zoom: 1.5;"></ion-icon> 
+        <p padding>SALVAR</p>
+      </button>
 
     </form>
   </div>
