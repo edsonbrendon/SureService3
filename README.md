@@ -9,7 +9,7 @@
 <h4>Cordova:</h4>
 
    <p>Cordova CLI       : 9.0.0 (cordova-lib@9.0.1</p>
-   <p>Cordova Platforms : none</p>
+   <p>Cordova Platforms : android 8.1.0</p>
    <p>Cordova Plugins   : no whitelisted plugins (0 plugins total)</p>
 
 <h4>Utility:</h4>
