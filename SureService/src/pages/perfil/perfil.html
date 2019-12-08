@@ -1,0 +1,23 @@
+<ion-header>
+  <ion-navbar>
+      <button ion-button menuToggle>
+        <ion-icon name="menu" style="zoom: 1.4;color: white;"></ion-icon>
+      </button>
+    <ion-title>Perfil</ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content padding>
+    <div *ngIf="user != null" style="padding: 20px; text-align: center;">
+      <ion-icon name='contact' style="zoom: 5.5;"></ion-icon>
+      <p style="color: #DEDEDC;">ID: {{ user.uid }}</p>
+      <p><b>{{ user.displayName }}</b></p>
+      <p>{{ user.email }}</p>
+      <p>{{ user.tel }}</p>
+      <p>Email verificado: <b>{{ user.emailVerified }}</b></p>
+      
+    <!--  <div>
+          <button  block outline (click)="AlterPerfil()" ion-button>Atualizar Informações</button>
+      </div>-->
+    </div>
+</ion-content>

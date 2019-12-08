@@ -1,7 +1,5 @@
 import { Component, ViewChild } from '@angular/core';
 import { IonicPage, NavController, NavParams, ToastController } from 'ionic-angular';
-import { HomePage } from '../home/home';
-import { AdvertsPage } from '../adverts/adverts';
 import { AngularFireAuth } from 'angularfire2/auth';
 import { InitialPage } from '../initial/initial';
 import { AlertController } from 'ionic-angular';
@@ -25,22 +23,12 @@ export class ProfilePage {
       private alertCtrl: AlertController) {
       firebaseauth.user.subscribe((data => {
         this.user = data;
+        console.log(this.user);
       })); 
   }
   
   ionViewDidLoad() {
     console.log('ionViewDidLoad ProfilePage');
-  }
-
-  NavMapa(){    
-    this.navCtrl.setRoot(HomePage,{},{animate:false}); 
-  }
-
-  NavAdverts(){
-    this.navCtrl.setRoot(AdvertsPage,{},{animate:false}); 
-  }
-
-  NavProfile(){
   }
 
   public Sair(): void {
@@ -84,7 +72,6 @@ export class ProfilePage {
         {
           text: 'Deletar',
           handler: () => {
-            console.log('Operação Cancelada');
             this.deletarConta();
           }
         }

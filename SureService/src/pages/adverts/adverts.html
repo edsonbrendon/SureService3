@@ -1,64 +1,23 @@
 <ion-header>
-  <ion-navbar>
+  <ion-navbar >
+      <button ion-button menuToggle>
+        <ion-icon name="menu" style="zoom: 1.4;color: white;"></ion-icon>
+      </button>
     <ion-title>Meus Anuncios</ion-title>
   </ion-navbar>
 </ion-header>
 
 <ion-content>
-  <ion-list  style="padding: 15px;">
-    <ion-item-sliding *ngFor="let contact of contacts | async">
-      <ion-item (click)="editContact(contact)">
+
+  <ion-list style="padding: 8px;">
+    <button ion-item *ngFor="let contact of contacts | async" (click)="editContact(contact)">
         <h1>{{ contact.name }}</h1>
-        <p>{{ contact.descricao }}</p>
+        <p>Descrição: {{ contact.descricao }}</p>
         <p>Telefone: {{ contact.tel }}</p>
         <p>Categoria: {{ contact.categoria }}</p>
-      </ion-item>
-     <!--   <ion-item-options side="left">
-        <button ion-button clear (click)="editContact(contact)">
-          <ion-icon name="create" style="zoom: 1.5;"></ion-icon>
-        </button>
-        <button ion-button clear (click)="removeContact(contact.key)">
-          <ion-icon name="trash" style="zoom: 1.5;"></ion-icon>
-        </button>
-      </ion-item-options>-->
-    </ion-item-sliding>
-  </ion-list> 
-  </ion-content>
+    </button>  
+  </ion-list>
+
+</ion-content>
+
   
-  <ion-footer>
-      <ion-toolbar>
-        <ion-grid>  
-          <ion-row text-center>
-
-            <ion-col>   
-              <button (click)="NavMapa()" style="color: #657280;" ion-button clear>
-                <ion-icon name='home' style="zoom: 1.5;"></ion-icon>
-                <p style="padding: 5px;">Home</p>
-              </button>
-            </ion-col>
-
-            <ion-col>  
-                <button (click)="NavAdverts()" ion-button clear>
-                  <ion-icon name='list-box' style="zoom: 1.8;color:#0052EB"></ion-icon>
-                  <p style="color:#0052EB;padding: 5px;">Anuncios</p>
-                </button>
-              </ion-col>
-                  
-            <ion-col>  
-              <button (click)="NavProfile()" style="color: #657280;" ion-button clear>
-                <ion-icon name='person' style="zoom: 1.5;"></ion-icon>
-                <p style="padding: 5px;">Conta</p>
-              </button>
-            </ion-col>
-    <!--
-            <ion-col>  
-              <button ion-button clear>
-                <ion-icon name='settings' style="zoom: 1.5;"></ion-icon>
-              </button>
-              Configurações
-            </ion-col>-->
-    
-          </ion-row>  
-        </ion-grid>
-      </ion-toolbar>
-    </ion-footer>

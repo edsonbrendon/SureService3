@@ -4,7 +4,19 @@ page-home {
     }
 
     #map {
-      width: 100%;
+      background-size: cover;
       height: 100%;
+      overflow: hidden;
+      background: center center fixed
+    }
+    .toolbar {
+      position: absolute;
+  
+      .toolbar-background {
+        background: transparent;
+      }
+      .toolbar-title {
+        color: black;
+      }
     }
 }

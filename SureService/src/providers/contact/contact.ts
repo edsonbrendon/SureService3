@@ -1,24 +1,39 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { AngularFireDatabase } from 'angularfire2/database';
-//import { map } from 'rxjs/operators';
-
+import 'rxjs/add/operator/map';
+ 
 @Injectable()
 export class ContactProvider {
 
-  public PATH = 'anuncios/';
-  public anuncios = [];
+  public PATH = 'anuncios/'
 
   constructor(public http: HttpClient, public db: AngularFireDatabase) {
     console.log('Hello ContactProvider Provider');
   }
 
   getAll() {
-    return this.db.list(this.PATH).valueChanges();  
+    return this.db.list(this.PATH).valueChanges(); 
   }
 
   getAllKey() {
-    return this.db.list(this.PATH).snapshotChanges(); 
+    return this.db.list(this.PATH, ref => ref.orderByChild('name'))
+    .snapshotChanges()
+    .map(changes => {
+      return changes.map(c => ({ key: c.payload.key, ...c.payload.val() }));
+    })
+  }
+
+  getAllKeyUser(anuncianteID) {
+    try{
+    return this.db.list(this.PATH, ref => ref.orderByChild('anuncianteID').equalTo(anuncianteID))
+    .snapshotChanges()
+    .map(changes => {
+      return changes.map(c => ({ key: c.payload.key, ...c.payload.val() }));
+    })
+    }catch{
+      return this.db.list(this.PATH).valueChanges(); 
+    }
   }
 
   get(key: string) {
@@ -35,7 +50,8 @@ export class ContactProvider {
             latitude: contact.latitude,
             longitude: contact.longitude,
             categoria: contact.categoria,
-            descricao: contact.descricao })
+            descricao: contact.descricao,
+            anuncianteID: contact.anuncianteID })
           .then(() => resolve())
           .catch((e) => reject(e));
       } else {
@@ -46,7 +62,8 @@ export class ContactProvider {
             latitude: contact.latitude,
             longitude: contact.longitude,
             categoria: contact.categoria,
-            descricao: contact.descricao})
+            descricao: contact.descricao,
+            anuncianteID: contact.anuncianteID })
           .then(() => resolve());
       }
     })

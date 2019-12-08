@@ -55,11 +55,12 @@ export class LoginPage {
   }
 
   forgotpassword(email){
-    var auth = this.firebaseauth.auth;
-    auth.sendPasswordResetEmail(email).then(function() {
-        this.exibirToast('Email enviado com sucesso!');
+    this.firebaseauth.auth.sendPasswordResetEmail(email)
+      .then(function() {
+       // this.exibirToast('Email enviado com sucesso!');
       }).catch(function(error: any) {
         this.exibirToast(error);
+        //this.exibirToast(error);
     });
   }
 
@@ -68,7 +69,7 @@ export class LoginPage {
       title: 'Enviar e-mail para redefinição da senha',
       inputs: [
         {
-          name: 'username',
+          name: 'email',
           placeholder: 'E-mail'
         }
       ],
@@ -83,12 +84,12 @@ export class LoginPage {
         {
           text: 'Enviar',
           handler: data => {
-            if (data.username) {
-              this.forgotpassword(data.username);
-            } else {
-              this.exibirToast('Erro ao enviar E-mail!');
-              return false;
-            }
+            this.firebaseauth.auth.sendPasswordResetEmail(data.email)
+              .then(function() {
+                this.exibirToast('Email enviado com sucesso!');
+              }).catch(function(error) {
+                this.exibirToast(error);
+            });
           }
         }
       ]
